@@ -1,4 +1,3 @@
-
 #include QMK_KEYBOARD_H
 
 extern keymap_config_t keymap_config;
@@ -28,8 +27,6 @@ enum layers {
 
 // Custom keycodes for layer keys
 // Dual function escape with left command
-
-
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
   LOWER,
@@ -39,14 +36,14 @@ enum custom_keycodes {
 };
 
 enum {
-    TD_CAPLOCK,
-    TD_ALT,
-    TD_A,
-    TD_E,
-    TD_I,
-    TD_O,
-    TD_U,
-    TD_N,
+  TD_CAPLOCK,
+  TD_ALT,
+  TD_A,
+  TD_E,
+  TD_I,
+  TD_O,
+  TD_U,
+  TD_N,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -112,61 +109,72 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
-void latin_a (qk_tap_dance_state_t *state, void *user_data) {
-if (state->count == 2) {
-SEND_STRING(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_0)));
-reset_tap_dance (state); }
-else{register_code(XXXXXXX); }
+void latin_a(qk_tap_dance_state_t *state, void *user_data) {
+  if (state -> count == 2) {
+    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_0)));
+    reset_tap_dance(state);
+  } else {
+    register_code(XXXXXXX);
+  }
 }
 
-void latin_e (qk_tap_dance_state_t *state, void *user_data) {
-if (state->count == 2) {
-SEND_STRING(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_3)SS_TAP(X_KP_0)));;
-reset_tap_dance (state); }
-else{register_code(KC_F4); }
+void latin_e(qk_tap_dance_state_t *state, void *user_data) {
+  if (state -> count == 2) {
+    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_3) SS_TAP(X_KP_0)));;
+    reset_tap_dance(state);
+  } else {
+    register_code(KC_F4);
+  }
 }
 
-void latin_i (qk_tap_dance_state_t *state, void *user_data) {
-if (state->count == 2) {
-SEND_STRING(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_1)));;
-reset_tap_dance (state); }
-else{register_code(KC_F9); }
+void latin_i(qk_tap_dance_state_t *state, void *user_data) {
+  if (state -> count == 2) {
+    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_1)));;
+    reset_tap_dance(state);
+  } else {
+    register_code(KC_F9);
+  }
 }
 
-void latin_o (qk_tap_dance_state_t *state, void *user_data) {
-if (state->count == 2) {
-SEND_STRING(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_2)));
-reset_tap_dance (state); }
-else{register_code(KC_F10); }
+void latin_o(qk_tap_dance_state_t *state, void *user_data) {
+  if (state -> count == 2) {
+    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_2)));
+    reset_tap_dance(state);
+  } else {
+    register_code(KC_F10);
+  }
 }
 
-void latin_u (qk_tap_dance_state_t *state, void *user_data) {
-if (state->count == 2) {
-SEND_STRING(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_3)));
-reset_tap_dance (state); }
-else{register_code(KC_F8); }
+void latin_u(qk_tap_dance_state_t *state, void *user_data) {
+  if (state -> count == 2) {
+    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_3)));
+    reset_tap_dance(state);
+  } else {
+    register_code(KC_F8);
+  }
 }
 
-void latin_n (qk_tap_dance_state_t *state, void *user_data) {
-if (state->count == 2) {
-SEND_STRING(SS_LALT(SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_4)));
-reset_tap_dance (state); }
-else{register_code(KC_RBRC); }
+void latin_n(qk_tap_dance_state_t *state, void *user_data) {
+  if (state -> count == 2) {
+    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_4)));
+    reset_tap_dance(state);
+  } else {
+    register_code(KC_RBRC);
+  }
 }
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for ;, twice for :
-    [TD_CAPLOCK] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-    [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_RALT, KC_LALT),
-    [TD_A] = ACTION_TAP_DANCE_FN(latin_a),
-    [TD_E] = ACTION_TAP_DANCE_FN(latin_e),
-    [TD_I] = ACTION_TAP_DANCE_FN(latin_i),
-    [TD_O] = ACTION_TAP_DANCE_FN(latin_o),
-    [TD_U] = ACTION_TAP_DANCE_FN(latin_u),
-    [TD_N] = ACTION_TAP_DANCE_FN(latin_n),
+  // Tap once for ;, twice for :
+  [TD_CAPLOCK] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
+  [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_RALT, KC_LALT),
+  [TD_A] = ACTION_TAP_DANCE_FN(latin_a),
+  [TD_E] = ACTION_TAP_DANCE_FN(latin_e),
+  [TD_I] = ACTION_TAP_DANCE_FN(latin_i),
+  [TD_O] = ACTION_TAP_DANCE_FN(latin_o),
+  [TD_U] = ACTION_TAP_DANCE_FN(latin_u),
+  [TD_N] = ACTION_TAP_DANCE_FN(latin_n),
 };
-
 
 int RGB_current_mode;
 
@@ -180,45 +188,47 @@ void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
 }
 
 void matrix_init_user(void) {
-    #ifdef RGBLIGHT_ENABLE
-      RGB_current_mode = rgblight_config.mode;
-    #endif
+  #ifdef RGBLIGHT_ENABLE
+    RGB_current_mode = rgblight_config.mode;
+  #endif
 }
 
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
-  switch (biton32(layer_state)) {
-    case _RAISE:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+    switch (biton32(layer_state)) {
+      case _RAISE:
+        for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
           rgb_matrix_set_color(i, 255, 100, 0);
-      }
-      break;
+        }
+        break;
 
-    case _LOWER:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-         rgb_matrix_set_color(i, 0, 45, 255);
-      }
-      break;
+      case _LOWER:
+        for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+          rgb_matrix_set_color(i, 0, 45, 255);
+        }
+        break;
 
-    default:
-        if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-                  for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-          rgb_matrix_set_color(i, 255, 200, 0);
-      }
-       }
-      break;
-  }
+      default:
+        if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+          for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+            rgb_matrix_set_color(i, 255, 200, 0);
+          }
+        }
+        break;
+    }
   #endif
 }
 
 #ifdef OLED_DRIVER_ENABLE
-oled_rotation_t oled_init_user(oled_rotation_t rotation) { return OLED_ROTATION_270; }
+  oled_rotation_t oled_init_user(oled_rotation_t rotation) {
+    return OLED_ROTATION_270;
+  }
 
-void render_space(void) {
+  void render_space(void) {
     oled_write_P(PSTR("     "), false);
-}
+  }
 
-void render_mod_status_gui_alt(uint8_t modifiers) {
+  void render_mod_status_gui_alt(uint8_t modifiers) {
     static const char PROGMEM gui_off_1[] = {0x85, 0x86, 0};
     static const char PROGMEM gui_off_2[] = {0xa5, 0xa6, 0};
     static const char PROGMEM gui_on_1[] = {0x8d, 0x8e, 0};
@@ -239,53 +249,52 @@ void render_mod_status_gui_alt(uint8_t modifiers) {
     static const char PROGMEM on_on_1[] = {0xcb, 0};
     static const char PROGMEM on_on_2[] = {0xcc, 0};
 
-    if(modifiers & MOD_MASK_GUI) {
-        oled_write_P(gui_on_1, false);
+    if (modifiers & MOD_MASK_GUI) {
+      oled_write_P(gui_on_1, false);
     } else {
-        oled_write_P(gui_off_1, false);
+      oled_write_P(gui_off_1, false);
     }
 
     if ((modifiers & MOD_MASK_GUI) && (modifiers & MOD_MASK_ALT)) {
-        oled_write_P(on_on_1, false);
-    } else if(modifiers & MOD_MASK_GUI) {
-        oled_write_P(on_off_1, false);
-    } else if(modifiers & MOD_MASK_ALT) {
-        oled_write_P(off_on_1, false);
+      oled_write_P(on_on_1, false);
+    } else if (modifiers & MOD_MASK_GUI) {
+      oled_write_P(on_off_1, false);
+    } else if (modifiers & MOD_MASK_ALT) {
+      oled_write_P(off_on_1, false);
     } else {
-        oled_write_P(off_off_1, false);
+      oled_write_P(off_off_1, false);
     }
 
-    if(modifiers & MOD_MASK_ALT) {
-        oled_write_P(alt_on_1, false);
+    if (modifiers & MOD_MASK_ALT) {
+      oled_write_P(alt_on_1, false);
     } else {
-        oled_write_P(alt_off_1, false);
+      oled_write_P(alt_off_1, false);
     }
 
-    if(modifiers & MOD_MASK_GUI) {
-        oled_write_P(gui_on_2, false);
+    if (modifiers & MOD_MASK_GUI) {
+      oled_write_P(gui_on_2, false);
     } else {
-        oled_write_P(gui_off_2, false);
+      oled_write_P(gui_off_2, false);
     }
 
     if (modifiers & MOD_MASK_GUI & MOD_MASK_ALT) {
-        oled_write_P(on_on_2, false);
-    } else if(modifiers & MOD_MASK_GUI) {
-        oled_write_P(on_off_2, false);
-    } else if(modifiers & MOD_MASK_ALT) {
-        oled_write_P(off_on_2, false);
+      oled_write_P(on_on_2, false);
+    } else if (modifiers & MOD_MASK_GUI) {
+      oled_write_P(on_off_2, false);
+    } else if (modifiers & MOD_MASK_ALT) {
+      oled_write_P(off_on_2, false);
     } else {
-        oled_write_P(off_off_2, false);
+      oled_write_P(off_off_2, false);
     }
 
-    if(modifiers & MOD_MASK_ALT) {
-        oled_write_P(alt_on_2, false);
+    if (modifiers & MOD_MASK_ALT) {
+      oled_write_P(alt_on_2, false);
     } else {
-        oled_write_P(alt_off_2, false);
+      oled_write_P(alt_off_2, false);
     }
-}
+  }
 
-
-void render_mod_status_ctrl_shift(uint8_t modifiers) {
+  void render_mod_status_ctrl_shift(uint8_t modifiers) {
     static const char PROGMEM ctrl_off_1[] = {0x89, 0x8a, 0};
     static const char PROGMEM ctrl_off_2[] = {0xa9, 0xaa, 0};
     static const char PROGMEM ctrl_on_1[] = {0x91, 0x92, 0};
@@ -306,134 +315,141 @@ void render_mod_status_ctrl_shift(uint8_t modifiers) {
     static const char PROGMEM on_on_1[] = {0xcb, 0};
     static const char PROGMEM on_on_2[] = {0xcc, 0};
 
-    if(modifiers & MOD_MASK_CTRL) {
-        oled_write_P(ctrl_on_1, false);
+    if (modifiers & MOD_MASK_CTRL) {
+      oled_write_P(ctrl_on_1, false);
     } else {
-        oled_write_P(ctrl_off_1, false);
+      oled_write_P(ctrl_off_1, false);
     }
 
     if ((modifiers & MOD_MASK_CTRL) && (modifiers & MOD_MASK_SHIFT)) {
-        oled_write_P(on_on_1, false);
-    } else if(modifiers & MOD_MASK_CTRL) {
-        oled_write_P(on_off_1, false);
-    } else if(modifiers & MOD_MASK_SHIFT) {
-        oled_write_P(off_on_1, false);
+      oled_write_P(on_on_1, false);
+    } else if (modifiers & MOD_MASK_CTRL) {
+      oled_write_P(on_off_1, false);
+    } else if (modifiers & MOD_MASK_SHIFT) {
+      oled_write_P(off_on_1, false);
     } else {
-        oled_write_P(off_off_1, false);
+      oled_write_P(off_off_1, false);
     }
 
-    if(modifiers & MOD_MASK_SHIFT) {
-        oled_write_P(shift_on_1, false);
+    if (modifiers & MOD_MASK_SHIFT) {
+      oled_write_P(shift_on_1, false);
     } else {
-        oled_write_P(shift_off_1, false);
+      oled_write_P(shift_off_1, false);
     }
 
-    if(modifiers & MOD_MASK_CTRL) {
-        oled_write_P(ctrl_on_2, false);
+    if (modifiers & MOD_MASK_CTRL) {
+      oled_write_P(ctrl_on_2, false);
     } else {
-        oled_write_P(ctrl_off_2, false);
+      oled_write_P(ctrl_off_2, false);
     }
 
     if (modifiers & MOD_MASK_CTRL & MOD_MASK_SHIFT) {
-        oled_write_P(on_on_2, false);
-    } else if(modifiers & MOD_MASK_CTRL) {
-        oled_write_P(on_off_2, false);
-    } else if(modifiers & MOD_MASK_SHIFT) {
-        oled_write_P(off_on_2, false);
+      oled_write_P(on_on_2, false);
+    } else if (modifiers & MOD_MASK_CTRL) {
+      oled_write_P(on_off_2, false);
+    } else if (modifiers & MOD_MASK_SHIFT) {
+      oled_write_P(off_on_2, false);
     } else {
-        oled_write_P(off_off_2, false);
+      oled_write_P(off_off_2, false);
     }
 
-    if(modifiers & MOD_MASK_SHIFT) {
-        oled_write_P(shift_on_2, false);
+    if (modifiers & MOD_MASK_SHIFT) {
+      oled_write_P(shift_on_2, false);
     } else {
-        oled_write_P(shift_off_2, false);
+      oled_write_P(shift_off_2, false);
     }
-}
+  }
 
-void render_logo(void) {
+  void render_logo(void) {
     static const char PROGMEM corne_logo[] = {
-        0x80, 0x81, 0x82, 0x83, 0x84,
-        0xa0, 0xa1, 0xa2, 0xa3, 0xa4,
-        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0};
+      0x80, 0x81, 0x82, 0x83, 0x84,
+      0xa0, 0xa1, 0xa2, 0xa3, 0xa4,
+      0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0
+    };
     oled_write_P(corne_logo, false);
     oled_write_P(PSTR("corne by  LuisR"), false);
-}
+  }
 
-void render_layer_state(void) {
+  void render_layer_state(void) {
     static const char PROGMEM default_layer[] = {
-        0x20, 0x94, 0x95, 0x96, 0x20,
-        0x20, 0xb4, 0xb5, 0xb6, 0x20,
-        0x20, 0xd4, 0xd5, 0xd6, 0x20, 0};
+      0x20, 0x94, 0x95, 0x96, 0x20,
+      0x20, 0xb4, 0xb5, 0xb6, 0x20,
+      0x20, 0xd4, 0xd5, 0xd6, 0x20, 0
+    };
     static const char PROGMEM raise_layer[] = {
-        0x20, 0x97, 0x98, 0x99, 0x20,
-        0x20, 0xb7, 0xb8, 0xb9, 0x20,
-        0x20, 0xd7, 0xd8, 0xd9, 0x20, 0};
+      0x20, 0x97, 0x98, 0x99, 0x20,
+      0x20, 0xb7, 0xb8, 0xb9, 0x20,
+      0x20, 0xd7, 0xd8, 0xd9, 0x20, 0
+    };
     static const char PROGMEM lower_layer[] = {
-        0x20, 0x9a, 0x9b, 0x9c, 0x20,
-        0x20, 0xba, 0xbb, 0xbc, 0x20,
-        0x20, 0xda, 0xdb, 0xdc, 0x20, 0};
+      0x20, 0x9a, 0x9b, 0x9c, 0x20,
+      0x20, 0xba, 0xbb, 0xbc, 0x20,
+      0x20, 0xda, 0xdb, 0xdc, 0x20, 0
+    };
     static const char PROGMEM adjust_layer[] = {
-        0x20, 0x9d, 0x9e, 0x9f, 0x20,
-        0x20, 0xbd, 0xbe, 0xbf, 0x20,
-        0x20, 0xdd, 0xde, 0xdf, 0x20, 0};
-    if(layer_state_is(_ADJUST)) {
-        oled_write_P(adjust_layer, false);
-    } else if(layer_state_is(_LOWER)) {
-        oled_write_P(lower_layer, false);
-    } else if(layer_state_is(_RAISE)) {
-        oled_write_P(raise_layer, false);
+      0x20, 0x9d, 0x9e, 0x9f, 0x20,
+      0x20, 0xbd, 0xbe, 0xbf, 0x20,
+      0x20, 0xdd, 0xde, 0xdf, 0x20, 0
+    };
+
+    if (layer_state_is(_ADJUST)) {
+      oled_write_P(adjust_layer, false);
+    } else if (layer_state_is(_LOWER)) {
+      oled_write_P(lower_layer, false);
+    } else if (layer_state_is(_RAISE)) {
+      oled_write_P(raise_layer, false);
     } else {
-        oled_write_P(default_layer, false);
+      oled_write_P(default_layer, false);
     }
-}
+  }
 
-void render_status_main(void) {
+  void render_status_main(void) {
     render_logo();
     render_space();
     render_layer_state();
     render_space();
-    render_mod_status_gui_alt(get_mods()|get_oneshot_mods());
-    render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
-}
+    render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+    render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+  }
 
-void render_status_secondary(void) {
+  void render_status_secondary(void) {
     render_logo();
     render_space();
     render_layer_state();
     render_space();
-    render_mod_status_gui_alt(get_mods()|get_oneshot_mods());
-    render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
-}
+    render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+    render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+  }
 
-void oled_task_user(void) {
+  void oled_task_user(void) {
     if (timer_elapsed32(oled_timer) > 1500000) {
-        oled_off();
-        return;
+      oled_off();
+      return;
     }
-#ifndef SPLIT_KEYBOARD
-    else { oled_on(); }
-#endif
+    #ifndef SPLIT_KEYBOARD
+      else {
+        oled_on();
+      }
+    #endif
 
     if (is_master) {
-        render_status_main();  // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+      render_status_main(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
     } else {
-        render_status_secondary();
+      render_status_secondary();
     }
-}
+  }
+#endif
 
-#endif
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record->event.pressed) {
-#ifdef OLED_DRIVER_ENABLE
-        oled_timer = timer_read32();
-#endif
-    // set_timelog();
+  if (record -> event.pressed) {
+    #ifdef OLED_DRIVER_ENABLE
+      oled_timer = timer_read32();
+    #endif
   }
 
   switch (keycode) {
     case LOWER:
-      if (record->event.pressed) {
+      if (record -> event.pressed) {
         layer_on(_LOWER);
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
       } else {
@@ -441,9 +457,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
       }
       return false;
-
     case RAISE:
-      if (record->event.pressed) {
+      if (record -> event.pressed) {
         layer_on(_RAISE);
         update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
       } else {
@@ -452,38 +467,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     case ADJUST:
-        if (record->event.pressed) {
-          layer_on(_ADJUST);
-        } else {
-          layer_off(_ADJUST);
-        }
-        return false;
-         case MACRO1:
-    if (record->event.pressed) {
-            SEND_STRING("luis96raul1@gmail.com\n");
-        } else {
-            
-        }
-        return false;
-      #ifdef RGB_MATRIX_ENABLE
-        if (record->event.pressed) {
-          eeconfig_update_rgb_matrix_default();
-          rgb_matrix_enable();
-        }
-      #endif
-      break;
+      if (record -> event.pressed) {
+        layer_on(_ADJUST);
+      } else {
+        layer_off(_ADJUST);
+      }
+      return false;
   }
   return true;
 }
 
 #ifdef RGB_MATRIX_ENABLE
-
-void suspend_power_down_user(void) {
+  void suspend_power_down_user(void) {
     rgb_matrix_set_suspend_state(true);
-}
+  }
 
-void suspend_wakeup_init_user(void) {
+  void suspend_wakeup_init_user(void) {
     rgb_matrix_set_suspend_state(false);
-}
-
+  }
 #endif
