@@ -330,20 +330,20 @@ void render_layer_state(void) {
 
 void render_status_main(void) {
   render_logo();
-//   render_space();
-//   render_layer_state();
-//   render_space();
-//   render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
-//   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+  render_space();
+  render_layer_state();
+  render_space();
+  render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+  render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
 void render_status_secondary(void) {
   render_logo();
-//   render_space();
-//   render_layer_state();
-//   render_space();
-//   render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
-//   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+  render_space();
+  render_layer_state();
+  render_space();
+  render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+  render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
 void suspend_power_down_user() {
