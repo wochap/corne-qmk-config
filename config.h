@@ -34,8 +34,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // #define TAPPING_FORCE_HOLD
 #undef TAPPING_TERM
-#define TAPPING_TERM 170
+#define FORCE_NKRO
 #define IGNORE_MOD_TAP_INTERRUPT
+#define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
+#define NKRO_ENABLE
+#define TAPPING_FORCE_HOLD
+#define TAPPING_TERM 170
+#define TAPPING_TERM_PER_KEY
 
 #define OLED_FONT_H "keyboards/crkbd/keymaps/wochap/glcdfont.c"
 // #define OLED_FONT_WIDTH 5

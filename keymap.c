@@ -7,31 +7,84 @@ extern uint8_t is_master;
 static uint32_t oled_timer = 0;
 #endif
 
+#define NAV_LT LT(_NAV, KC_ENT)
+#define NUMS_LT LT(_NUMS, KC_TAB)
+#define HOME_A GUI_T(KC_A)
+#define HOME_R ALT_T(KC_R)
+#define HOME_S CTL_T(KC_S)
+#define HOME_T SFT_T(KC_T)
+#define HOME_N RSFT_T(KC_N)
+#define HOME_E RCTL_T(KC_E)
+#define HOME_I RALT_T(KC_I)
+#define HOME_O RGUI_T(KC_O)
+
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 enum layers {
-  _QWERTY,
+  _COLEMAK_DH,
+  _NUMS,
+  _NAV,
   _ADJUST,
+  _QWERTY,
 };
 
 // Custom keycodes for layer keys
 // Dual function escape with left command
 enum custom_keycodes {
-  QWERTY = SAFE_RANGE,
+  COLEMAK_DH = SAFE_RANGE,
+  NUMS,
+  NAV,
   ADJUST,
+  QWERTY,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+  [_COLEMAK_DH] = LAYOUT_split_3x6_3(
+  //|-----------------------------------------------------|                    |-----------------------------------------------------|
+     ADJUST,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_G,                         KC_M,    HOME_N,  HOME_E,  HOME_I,  HOME_O,  XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                         XXXXXXX, NUMS_LT, KC_SPC,     KC_BSPC, NAV_LT,  XXXXXXX
+                                      //|--------------------------|  |--------------------------|
+  ),
+
+  [_NUMS] = LAYOUT_split_3x6_3(
+  //|-----------------------------------------------------|                    |-----------------------------------------------------|
+     XXXXXXX, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, KC_DLR,  KC_PLUS, KC_LPRN, KC_RPRN, KC_AT,                        KC_PIPE, KC_MINS, KC_EQL,  XXXXXXX, KC_PAST, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, KC_EXLM, KC_HASH, XXXXXXX, KC_QUOT, KC_GRV,                       KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                         XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //|--------------------------|  |--------------------------|
+  ),
+
+  [_NAV] = LAYOUT_split_3x6_3(
+  //|-----------------------------------------------------|                    |-----------------------------------------------------|
+     XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, KC_F11,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,                       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_F12,  XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                         XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //|--------------------------|  |--------------------------|
+  ),
+
   [_QWERTY] = LAYOUT_split_3x6_3(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
      ADJUST,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, XXXXXXX,\
-  //---------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX,\
-  //---------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX, XXXXXXX, KC_SPC,     KC_BSPC, KC_ENT,  XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
@@ -48,6 +101,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //|--------------------------|  |--------------------------|
   ),
 };
+
+bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case NUMS_LT:
+      return false;
+    default:
+      return true;
+  }
+}
+
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case HOME_A:
+    case HOME_R:
+    case HOME_I:
+    case HOME_O:
+        return TAPPING_TERM + 50;\
+    default:
+        return TAPPING_TERM;
+  }
+}
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
