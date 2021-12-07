@@ -46,7 +46,7 @@ $ git clone git@github.com:wochap/corne-layout.git wochap
 1. Connect `jack TRRS cable`
 1. Disconnect the keyboard (USB-C) to the PC 
 1. Run the command
-1. Connect the keyboard (USB-C)
+1. Connect the keyboard (USB-C) and press the master keyboard reset button twice
 
 ```sh
 # command
