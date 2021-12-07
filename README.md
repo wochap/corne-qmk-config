@@ -1,4 +1,4 @@
-# Luis Raul's layout for Corne
+# corne-layout
 
 Hello there!
 There are some things that you need to know before start playing with your new Corne Keyboard:
@@ -19,3 +19,47 @@ That's all, now you can edit every layer, add or remove fuctionalities 😉
 
 Little disclaimer:
 The Dvorak layer is in beta phase, if you enter here, you'll need to unplug and plug the keyboard from the pc to return to the other layers.
+
+## Flash keyboard
+
+Clone repo in `keyboards/crkbd/keymaps` folder.
+
+```sh
+$ cd keyboards/crkbd/keymaps
+$ git clone git@github.com:wochap/corne-layout.git wochap
+```
+
+### First time
+
+1. Disconnect `jack TRRS cable` and the keyboard (USB-C)
+1. Left keyboard
+  1. Run the command
+  1. Connect the left keyboard, and press the reset button twice
+  1. Once it finished, disconnect the left keyboard.
+1. Right keyboard
+  1. Run the command
+  1. Connect the right keyboard, and press the reset button twice
+  1. Once it finished, disconnect the right keyboard.
+
+### Second time and on
+
+1. Connect `jack TRRS cable`
+1. Disconnect the keyboard (USB-C) to the PC 
+1. Run the command
+1. Connect the keyboard (USB-C)
+
+```sh
+# command
+$ qmk compile -kb crkbd/rev1 -km wochap:flash
+```
+
+## Files
+
+```
+.
+├── config.h             # 
+├── glcdfont.c           # oled screen related (looks like it is not being used)
+├── keymap.c             # here we define our layouts
+├── README.md            # this file
+└── rules.mk             # environment variables?
+```
