@@ -1,17 +1,11 @@
 #include QMK_KEYBOARD_H
-
-extern keymap_config_t keymap_config;
-
-#ifdef RGBLIGHT_ENABLE
-//Following line allows macro to read current RGB settings
-extern rgblight_config_t rgblight_config;
-#endif
-
-#ifdef OLED_DRIVER_ENABLE
-static uint32_t oled_timer = 0;
-#endif
+#include <stdio.h>
 
 extern uint8_t is_master;
+
+#ifdef OLED_ENABLE
+static uint32_t oled_timer = 0;
+#endif
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -30,7 +24,7 @@ enum custom_keycodes {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-  [_QWERTY] = LAYOUT(
+  [_QWERTY] = LAYOUT_split_3x6_3(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
      ADJUST,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -42,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                       //|--------------------------|  |--------------------------|
   ),
 
-  [_ADJUST] = LAYOUT(
+  [_ADJUST] = LAYOUT_split_3x6_3(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,  \
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -90,7 +84,7 @@ void rgb_matrix_indicators_user(void) {
   #endif
 }
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   return OLED_ROTATION_270;
 }
@@ -238,7 +232,7 @@ void render_logo(void) {
     0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0
   };
   oled_write_P(corne_logo, false);
-//   oled_write_P(PSTR("corne by  GuisR"), false);
+  oled_write_P(PSTR("corne"), false);
 }
 
 void render_layer_state(void) {
@@ -278,16 +272,25 @@ void render_status_secondary(void) {
 //   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
-void oled_task_user(void) {
+void suspend_power_down_user() {
+  oled_off();
+}
+
+bool oled_task_user(void) {
+  if (timer_elapsed32(oled_timer) > 30000) {
+    oled_off();
+    return;
+  }
   #ifndef SPLIT_KEYBOARD
-  oled_on();
+  else { oled_on(); }
   #endif
 
-  if (is_master) {
-    render_status_main(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+  if (is_keyboard_master()) {
+    render_status_main();  // Renders the current keyboard state (layer, lock, caps, scroll, etc)
   } else {
     render_status_secondary();
   }
+  return false;
 }
 #endif
 

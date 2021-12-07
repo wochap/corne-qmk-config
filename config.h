@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TERM 170
 #define IGNORE_MOD_TAP_INTERRUPT
 
-#define OLED_FONT_H "keyboards/crkbd/keymaps/soundmonster/glcdfont.c"
+#define OLED_FONT_H "keyboards/crkbd/keymaps/wochap/glcdfont.c"
 // #define OLED_FONT_WIDTH 5
 // #define OLED_FONT_HEIGHT 7
 
