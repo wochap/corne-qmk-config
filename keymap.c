@@ -19,161 +19,44 @@ extern uint8_t is_master;
 // entirely and just use numbers.
 enum layers {
   _QWERTY,
-  _LOWER,
-  _RAISE,
   _ADJUST,
-  _DVORAK,
 };
 
 // Custom keycodes for layer keys
 // Dual function escape with left command
 enum custom_keycodes {
   QWERTY = SAFE_RANGE,
-  LOWER,
-  RAISE,
   ADJUST,
-  MACRO1,
-};
-
-enum {
-  TD_CAPLOCK,
-  TD_ALT,
-  TD_A,
-  TD_E,
-  TD_I,
-  TD_O,
-  TD_U,
-  TD_N,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     KC_ESC,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                           KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,  KC_BSPC,
+     ADJUST,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_TAB,  KC_A,   KC_S,    KC_D,    KC_F,    KC_G,                            KC_H,    KC_J,    KC_K,    KC_L,   KC_SCLN, KC_QUOT,
+     XXXXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, XXXXXXX,\
   //---------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_LSFT,   KC_Z,   KC_X,    KC_C,    KC_V,    KC_B,                          KC_N,    KC_M,   KC_COMM, KC_DOT, KC_SLSH, RSFT_T(KC_ENT),
+     XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX,\
   //---------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_LCTL, KC_SPC, LOWER,        RAISE, KC_LGUI, TD(TD_ALT)
-                                      //|--------------------------|  |--------------------------|
-  ),
-
- [_DVORAK] = LAYOUT(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     KC_ESC,  KC_QUOT, KC_COMM,  KC_DOT,  KC_P,    KC_Y,                          KC_F,    KC_G,    KC_C,    KC_R,    KC_L,  KC_BSPC,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_TAB,   KC_A,     KC_O,    KC_E,   KC_U,  KC_I,                            KC_D,    KC_H,    KC_T,    KC_N,   KC_S,   KC_MINS,
-  //---------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_LSFT, KC_SCLN,   KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,   KC_W,      KC_V,    KC_Z, RSFT_T(KC_ENT),
-  //---------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_LCTL, KC_SPC,   LOWER,     RAISE, KC_LGUI, TD(TD_ALT)
-                                      //|--------------------------|  |--------------------------|
-  ),
-
-  [_LOWER] = LAYOUT( 
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     KC_GRV,  KC_EXLM,   KC_AT,  KC_HASH, KC_DLR, KC_PERC,                      KC_CIRC,  KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_MINS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, XXXXXXX, KC_BRIU, XXXXXXX, KC_VOLU, KC_MPLY,                      XXXXXXX,   KC_PSCR,  KC_UP, XXXXXXX, XXXXXXX,  KC_EQL,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_CAPLOCK),XXXXXXX,KC_BRID,KC_MPRV,KC_VOLD,KC_MNXT,                     XXXXXXX , KC_LEFT, KC_DOWN, KC_RGHT, XXXXXXX, KC_ENT,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_LCTL, KC_SPC,  XXXXXXX,     RAISE, KC_LGUI, TD(TD_ALT)
-                                      //|--------------------------|  |--------------------------|
-  ),
-
-  [_RAISE] = LAYOUT(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-       KC_F1,  KC_F2,    KC_F3, TD(TD_E),  KC_F5,   KC_F6,                        KC_F7,  TD(TD_U),  TD(TD_I),TD(TD_O),  KC_F11, KC_F12,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, TD(TD_A), XXXXXXX, XXXXXXX, MACRO1, XXXXXXX,                       KC_INS,  KC_HOME, KC_PGUP, KC_LBRC, TD(TD_N), KC_BSLS,
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     TD(TD_CAPLOCK),XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,                     KC_DEL,  KC_END,  KC_PGDN, XXXXXXX, XXXXXXX, KC_ENT,
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LCTL, KC_SPC,  LOWER,    XXXXXXX, KC_LGUI, TD(TD_ALT)
+                                         XXXXXXX, XXXXXXX, KC_SPC,     KC_BSPC, KC_ENT,  XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
   [_ADJUST] = LAYOUT(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     KC_ESC, XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                      XXXXXXX,  KC_7,     KC_8,    KC_9,  XXXXXXX, KC_BSPC,\
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,  \
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    DF(_DVORAK),RGB_HUI,RGB_SAI,RGB_SPI, RGB_VAI, RGB_MOD,                      XXXXXXX,   KC_4,    KC_5,    KC_6,  KC_0,   RESET,\
+     XXXXXXX, RGB_HUI, RGB_SAI, RGB_SPI, RGB_VAI, RGB_MOD,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_LSFT, RGB_HUD, RGB_SAD, RGB_SPD, RGB_VAD, RGB_RMOD,                     XXXXXXX ,   KC_1,    KC_2,    KC_3,  XXXXXXX,  KC_ENT,\
+     XXXXXXX, RGB_HUD, RGB_SAD, RGB_SPD, RGB_VAD, RGB_RMOD,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         KC_LCTL,  KC_SPC,  KC_TRNS,   KC_TRNS, KC_LGUI, TD(TD_ALT) 
+                                         XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
-
 };
-
-void latin_a(qk_tap_dance_state_t *state, void *user_data) {
-  if (state -> count == 2) {
-    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_0)));
-    reset_tap_dance(state);
-  } else {
-    register_code(XXXXXXX);
-  }
-}
-
-void latin_e(qk_tap_dance_state_t *state, void *user_data) {
-  if (state -> count == 2) {
-    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_3) SS_TAP(X_KP_0)));;
-    reset_tap_dance(state);
-  } else {
-    register_code(KC_F4);
-  }
-}
-
-void latin_i(qk_tap_dance_state_t *state, void *user_data) {
-  if (state -> count == 2) {
-    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_1)));;
-    reset_tap_dance(state);
-  } else {
-    register_code(KC_F9);
-  }
-}
-
-void latin_o(qk_tap_dance_state_t *state, void *user_data) {
-  if (state -> count == 2) {
-    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_2)));
-    reset_tap_dance(state);
-  } else {
-    register_code(KC_F10);
-  }
-}
-
-void latin_u(qk_tap_dance_state_t *state, void *user_data) {
-  if (state -> count == 2) {
-    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_3)));
-    reset_tap_dance(state);
-  } else {
-    register_code(KC_F8);
-  }
-}
-
-void latin_n(qk_tap_dance_state_t *state, void *user_data) {
-  if (state -> count == 2) {
-    SEND_STRING(SS_LALT(SS_TAP(X_KP_1) SS_TAP(X_KP_6) SS_TAP(X_KP_4)));
-    reset_tap_dance(state);
-  } else {
-    register_code(KC_RBRC);
-  }
-}
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  // Tap once for ;, twice for :
-  [TD_CAPLOCK] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
-  [TD_ALT] = ACTION_TAP_DANCE_DOUBLE(KC_RALT, KC_LALT),
-  [TD_A] = ACTION_TAP_DANCE_FN(latin_a),
-  [TD_E] = ACTION_TAP_DANCE_FN(latin_e),
-  [TD_I] = ACTION_TAP_DANCE_FN(latin_i),
-  [TD_O] = ACTION_TAP_DANCE_FN(latin_o),
-  [TD_U] = ACTION_TAP_DANCE_FN(latin_u),
-  [TD_N] = ACTION_TAP_DANCE_FN(latin_n),
 };
 
 int RGB_current_mode;
@@ -196,18 +79,6 @@ void matrix_init_user(void) {
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
   switch (biton32(layer_state)) {
-    case _RAISE:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-        rgb_matrix_set_color(i, 255, 100, 0);
-      }
-      break;
-
-    case _LOWER:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-        rgb_matrix_set_color(i, 0, 45, 255);
-      }
-      break;
-
     default:
       if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
         for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
@@ -367,7 +238,7 @@ void render_logo(void) {
     0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0
   };
   oled_write_P(corne_logo, false);
-  oled_write_P(PSTR("corne by  LuisR"), false);
+//   oled_write_P(PSTR("corne by  GuisR"), false);
 }
 
 void render_layer_state(void) {
@@ -375,16 +246,6 @@ void render_layer_state(void) {
     0x20, 0x94, 0x95, 0x96, 0x20,
     0x20, 0xb4, 0xb5, 0xb6, 0x20,
     0x20, 0xd4, 0xd5, 0xd6, 0x20, 0
-  };
-  static const char PROGMEM raise_layer[] = {
-    0x20, 0x97, 0x98, 0x99, 0x20,
-    0x20, 0xb7, 0xb8, 0xb9, 0x20,
-    0x20, 0xd7, 0xd8, 0xd9, 0x20, 0
-  };
-  static const char PROGMEM lower_layer[] = {
-    0x20, 0x9a, 0x9b, 0x9c, 0x20,
-    0x20, 0xba, 0xbb, 0xbc, 0x20,
-    0x20, 0xda, 0xdb, 0xdc, 0x20, 0
   };
   static const char PROGMEM adjust_layer[] = {
     0x20, 0x9d, 0x9e, 0x9f, 0x20,
@@ -394,10 +255,6 @@ void render_layer_state(void) {
 
   if (layer_state_is(_ADJUST)) {
     oled_write_P(adjust_layer, false);
-  } else if (layer_state_is(_LOWER)) {
-    oled_write_P(lower_layer, false);
-  } else if (layer_state_is(_RAISE)) {
-    oled_write_P(raise_layer, false);
   } else {
     oled_write_P(default_layer, false);
   }
@@ -405,31 +262,25 @@ void render_layer_state(void) {
 
 void render_status_main(void) {
   render_logo();
-  render_space();
-  render_layer_state();
-  render_space();
-  render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
-  render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+//   render_space();
+//   render_layer_state();
+//   render_space();
+//   render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+//   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
 void render_status_secondary(void) {
   render_logo();
-  render_space();
-  render_layer_state();
-  render_space();
-  render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
-  render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+//   render_space();
+//   render_layer_state();
+//   render_space();
+//   render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+//   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
 void oled_task_user(void) {
-  if (timer_elapsed32(oled_timer) > 1500000) {
-    oled_off();
-    return;
-  }
   #ifndef SPLIT_KEYBOARD
-    else {
-      oled_on();
-    }
+  oled_on();
   #endif
 
   if (is_master) {
@@ -448,24 +299,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
 
   switch (keycode) {
-    case LOWER:
-      if (record -> event.pressed) {
-        layer_on(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_LOWER);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
-    case RAISE:
-      if (record -> event.pressed) {
-        layer_on(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      } else {
-        layer_off(_RAISE);
-        update_tri_layer_RGB(_LOWER, _RAISE, _ADJUST);
-      }
-      return false;
     case ADJUST:
       if (record -> event.pressed) {
         layer_on(_ADJUST);
