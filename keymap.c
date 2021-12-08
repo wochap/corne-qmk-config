@@ -25,6 +25,7 @@ static uint32_t oled_timer = 0;
 enum layers {
   _COLEMAK_DH,
   _NUMS,
+  _FN,
   _NAV,
   _ADJUST,
   _QWERTY,
@@ -35,6 +36,7 @@ enum layers {
 enum custom_keycodes {
   COLEMAK_DH = SAFE_RANGE,
   NUMS,
+  FN,
   NAV,
   ADJUST,
   QWERTY,
@@ -57,11 +59,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
      XXXXXXX, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_DLR,  KC_PLUS, KC_LPRN, KC_RPRN, KC_AT,                        KC_PIPE, KC_MINS, KC_EQL,  XXXXXXX, KC_PAST, XXXXXXX,\
+     XXXXXXX, KC_DLR,  KC_PLUS, KC_LPRN, KC_RPRN, KC_AT,                        KC_BSLS, KC_MINS, KC_EQL,  XXXXXXX, KC_PAST, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_EXLM, KC_HASH, XXXXXXX, KC_QUOT, KC_GRV,                       KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                         XXXXXXX, XXXXXXX, XXXXXXX,    KC_DEL,  KC_ESC, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -70,6 +72,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_F11,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,                       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_F12,  XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                         XXXXXXX, FN,      XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                      //|--------------------------|  |--------------------------|
+  ),
+
+  [_FN] = LAYOUT_split_3x6_3(
+  //|-----------------------------------------------------|                    |-----------------------------------------------------|
+     XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX, XXXXXXX, RGB_VAD,                      RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, XXXXXXX,\
+  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+     XXXXXXX, KC_VOLD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -85,7 +99,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, XXXXXXX, KC_SPC,     KC_BSPC, KC_ENT,  XXXXXXX
+                                         XXXXXXX, NUMS_LT, KC_SPC,     KC_BSPC, NAV_LT,  XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -117,26 +131,18 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case HOME_R:
     case HOME_I:
     case HOME_O:
-        return TAPPING_TERM + 50;\
+      return TAPPING_TERM + 50;\
     default:
-        return TAPPING_TERM;
+      return TAPPING_TERM;
   }
 }
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
+  // TODO: print latin n on double n tap
 };
 
 int RGB_current_mode;
-
-// Setting ADJUST layer RGB back to default
-void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
-  if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
-    layer_on(layer3);
-  } else {
-    layer_off(layer3);
-  }
-}
 
 void matrix_init_user(void) {
   #ifdef RGBLIGHT_ENABLE
@@ -147,16 +153,88 @@ void matrix_init_user(void) {
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
   switch (biton32(layer_state)) {
+    case _NUMS:
+      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+        rgb_matrix_set_color(i, 155, 89, 182);
+      }
+      break;
+
+    case _NAV:
+      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+        rgb_matrix_set_color(i, 52, 152, 219);
+      }
+      break;
+
     default:
       if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
         for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-          rgb_matrix_set_color(i, 255, 200, 0);
+          // CAPS LOCK is ON
+          rgb_matrix_set_color(i, 231, 76, 60);
         }
       }
       break;
   }
   #endif
 }
+
+// Setting ADJUST layer RGB back to default
+// void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
+//   if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
+//     layer_on(layer3);
+//   } else {
+//     layer_off(layer3);
+//   }
+// }
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  if (record -> event.pressed) {
+    #ifdef OLED_ENABLE
+    oled_timer = timer_read32();
+    #endif
+  }
+
+  switch (keycode) {
+    case NUMS:
+      if (record->event.pressed) {
+        layer_on(_NUMS);
+        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
+      } else {
+        layer_off(_NUMS);
+        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
+      }
+      return false;
+
+    case NAV:
+      if (record->event.pressed) {
+        layer_on(_NAV);
+        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
+      } else {
+        layer_off(_NAV);
+        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
+      }
+      return false;
+
+    case ADJUST:
+      if (record -> event.pressed) {
+        layer_on(_ADJUST);
+      } else {
+        layer_off(_ADJUST);
+      }
+      return false;
+  }
+  return true;
+}
+
+#ifdef RGB_MATRIX_ENABLE
+void suspend_power_down_keymap(void) {
+  rgb_matrix_set_suspend_state(true);
+}
+
+void suspend_wakeup_init_keymap(void) {
+  rgb_matrix_set_suspend_state(false);
+}
+#endif
+
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -365,34 +443,5 @@ bool oled_task_user(void) {
     render_status_secondary();
   }
   return false;
-}
-#endif
-
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record -> event.pressed) {
-    #ifdef OLED_DRIVER_ENABLE
-    oled_timer = timer_read32();
-    #endif
-  }
-
-  switch (keycode) {
-    case ADJUST:
-      if (record -> event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
-  }
-  return true;
-}
-
-#ifdef RGB_MATRIX_ENABLE
-void suspend_power_down_keymap(void) {
-  rgb_matrix_set_suspend_state(true);
-}
-
-void suspend_wakeup_init_keymap(void) {
-  rgb_matrix_set_suspend_state(false);
 }
 #endif
