@@ -227,16 +227,25 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#ifdef RGB_MATRIX_ENABLE
 void suspend_power_down_user(void) {
+  #ifdef OLED_ENABLE
+  oled_off();
+  #endif
+
+  #ifdef RGB_MATRIX_ENABLE
   rgb_matrix_set_suspend_state(true);
+  #endif
 }
 
 void suspend_wakeup_init_user(void) {
-  rgb_matrix_set_suspend_state(false);
-}
-#endif
+  #ifdef OLED_ENABLE
+  oled_on();
+  #endif
 
+  #ifdef RGB_MATRIX_ENABLE
+  rgb_matrix_set_suspend_state(false);
+  #endif
+}
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -440,23 +449,20 @@ void render_status_secondary(void) {
   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
-void suspend_power_down_user() {
-  oled_off();
-}
-
-void oled_task_user(void) {
+bool oled_task_user(void) {
   if (timer_elapsed32(oled_timer) > 30000) {
     oled_off();
-    return;
+    return false;
   }
   #ifndef SPLIT_KEYBOARD
   else { oled_on(); }
   #endif
 
-  if (is_master) {
+  if (is_keyboard_master()) {
     render_status_main(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
   } else {
     render_status_secondary();
   }
+  return false;
 }
 #endif
