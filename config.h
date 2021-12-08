@@ -28,8 +28,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define EE_HANDS
 
 #undef USE_I2C
-#undef SSD1306OLED
-
 #define USE_SERIAL_PD2
 
 // #define TAPPING_FORCE_HOLD

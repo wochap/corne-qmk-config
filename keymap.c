@@ -3,8 +3,6 @@
 
 extern keymap_config_t keymap_config;
 
-extern uint8_t is_master;
-
 #define NAV_LT LT(_NAV, KC_ENT)
 #define NUMS_LT LT(_NUMS, KC_TAB)
 #define HOME_A GUI_T(KC_A)
@@ -197,7 +195,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void suspend_power_down_user(void) {
-  #ifdef OLED_DRIVER_ENABLE
+  #ifdef OLED_ENABLE
   oled_off();
   #endif
 
@@ -207,7 +205,7 @@ void suspend_power_down_user(void) {
 }
 
 void suspend_wakeup_init_user(void) {
-  #ifdef OLED_DRIVER_ENABLE
+  #ifdef OLED_ENABLE
   oled_on();
   #endif
 
@@ -216,7 +214,7 @@ void suspend_wakeup_init_user(void) {
   #endif
 }
 
-#ifdef OLED_DRIVER_ENABLE
+#ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   return OLED_ROTATION_270;
 }
@@ -418,11 +416,12 @@ void render_status_secondary(void) {
   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
-void oled_task_user(void) {
-  if (is_master) {
+bool oled_task_user(void) {
+  if (is_keyboard_master()) {
     render_status_main();
   } else {
     render_status_secondary();
   }
+  return false;
 }
-#endif
+#endif // OLED_ENABLE
