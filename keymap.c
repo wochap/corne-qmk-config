@@ -3,10 +3,6 @@
 
 extern keymap_config_t keymap_config;
 
-#ifdef OLED_ENABLE
-static uint32_t oled_timer = 0;
-#endif
-
 extern uint8_t is_master;
 
 #define NAV_LT LT(_NAV, KC_ENT)
@@ -141,16 +137,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  // TODO: print latin n on double n tap
+  // TODO:
 };
-
-int RGB_current_mode;
-
-void matrix_init_user(void) {
-  #ifdef RGBLIGHT_ENABLE
-  RGB_current_mode = rgblight_config.mode;
-  #endif
-}
 
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
@@ -179,40 +167,21 @@ void rgb_matrix_indicators_user(void) {
   #endif
 }
 
-// Setting ADJUST layer RGB back to default
-// void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
-//   if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
-//     layer_on(layer3);
-//   } else {
-//     layer_off(layer3);
-//   }
-// }
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record -> event.pressed) {
-    #ifdef OLED_ENABLE
-    oled_timer = timer_read32();
-    #endif
-  }
-
   switch (keycode) {
     case NUMS:
       if (record->event.pressed) {
         layer_on(_NUMS);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
       } else {
         layer_off(_NUMS);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
       }
       return false;
 
     case NAV:
       if (record->event.pressed) {
         layer_on(_NAV);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
       } else {
         layer_off(_NAV);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
       }
       return false;
 
@@ -228,7 +197,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 void suspend_power_down_user(void) {
-  #ifdef OLED_ENABLE
+  #ifdef OLED_DRIVER_ENABLE
   oled_off();
   #endif
 
@@ -238,7 +207,7 @@ void suspend_power_down_user(void) {
 }
 
 void suspend_wakeup_init_user(void) {
-  #ifdef OLED_ENABLE
+  #ifdef OLED_DRIVER_ENABLE
   oled_on();
   #endif
 
@@ -247,7 +216,7 @@ void suspend_wakeup_init_user(void) {
   #endif
 }
 
-#ifdef OLED_ENABLE
+#ifdef OLED_DRIVER_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
   return OLED_ROTATION_270;
 }
@@ -449,20 +418,11 @@ void render_status_secondary(void) {
   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
-bool oled_task_user(void) {
-  if (timer_elapsed32(oled_timer) > 30000) {
-    oled_off();
-    return false;
-  }
-  #ifndef SPLIT_KEYBOARD
-  else { oled_on(); }
-  #endif
-
-  if (is_keyboard_master()) {
-    render_status_main(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+void oled_task_user(void) {
+  if (is_master) {
+    render_status_main();
   } else {
     render_status_secondary();
   }
-  return false;
 }
 #endif
