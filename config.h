@@ -41,8 +41,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_TERM_PER_KEY
 
 #define OLED_FONT_H "keyboards/crkbd/keymaps/wochap/glcdfont.c"
+#define OLED_TIMEOUT 30000
+#define OLED_SCROLL_TIMEOUT 30000
 // #define OLED_FONT_WIDTH 5
 // #define OLED_FONT_HEIGHT 7
+
+// TODO: doesnt work
+// #define SPLIT_TRANSPORT_MIRROR
+// #define SPLIT_LAYER_STATE_ENABLE
+// #define SPLIT_LED_STATE_ENABLE
+// #define SPLIT_MODS_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
 #define RGB_MATRIX_KEYPRESSES // reacts to keypresses

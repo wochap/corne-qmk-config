@@ -411,9 +411,9 @@ void render_status_secondary(void) {
   render_logo();
   render_space();
   render_layer_state();
-  render_space();
-  render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
-  render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+  // render_space();
+  // render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+  // render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
 bool oled_task_user(void) {
