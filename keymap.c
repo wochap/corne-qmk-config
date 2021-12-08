@@ -1,11 +1,13 @@
 #include QMK_KEYBOARD_H
 #include <stdio.h>
 
-extern uint8_t is_master;
+extern keymap_config_t keymap_config;
 
 #ifdef OLED_ENABLE
 static uint32_t oled_timer = 0;
 #endif
+
+extern uint8_t is_master;
 
 #define NAV_LT LT(_NAV, KC_ENT)
 #define NUMS_LT LT(_NUMS, KC_TAB)
@@ -226,11 +228,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 #ifdef RGB_MATRIX_ENABLE
-void suspend_power_down_keymap(void) {
+void suspend_power_down_user(void) {
   rgb_matrix_set_suspend_state(true);
 }
 
-void suspend_wakeup_init_keymap(void) {
+void suspend_wakeup_init_user(void) {
   rgb_matrix_set_suspend_state(false);
 }
 #endif
@@ -442,20 +444,19 @@ void suspend_power_down_user() {
   oled_off();
 }
 
-bool oled_task_user(void) {
+void oled_task_user(void) {
   if (timer_elapsed32(oled_timer) > 30000) {
     oled_off();
-    return false;
+    return;
   }
   #ifndef SPLIT_KEYBOARD
   else { oled_on(); }
   #endif
 
-  if (is_keyboard_master()) {
-    render_status_main();  // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+  if (is_master) {
+    render_status_main(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
   } else {
     render_status_secondary();
   }
-  return false;
 }
 #endif
