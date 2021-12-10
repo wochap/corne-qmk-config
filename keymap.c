@@ -21,8 +21,8 @@ extern keymap_config_t keymap_config;
 enum layers {
   _COLEMAK_DH,
   _NUMS,
-  _FN,
   _NAV,
+  _FN,
   _ADJUST,
   _QWERTY,
 };
@@ -32,8 +32,8 @@ enum layers {
 enum custom_keycodes {
   COLEMAK_DH = SAFE_RANGE,
   NUMS,
-  FN,
   NAV,
+  FN,
   ADJUST,
   QWERTY,
 };
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, MO(FN),  XXXXXXX,    XXXXXXX, KC_TRNS, XXXXXXX
+                                         XXXXXXX, FN,  XXXXXXX,    XXXXXXX, KC_TRNS, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -175,6 +175,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
 
+    case FN:
+      if (record->event.pressed) {
+        layer_on(_FN);
+      } else {
+        layer_off(_FN);
+      }
+      return false;
+
     case NAV:
       if (record->event.pressed) {
         layer_on(_NAV);
@@ -191,6 +199,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
   }
+
   return true;
 }
 
