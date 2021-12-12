@@ -70,7 +70,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_F11,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,                       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_F12,  XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, XXXXXXX, KC_BTN1, KC_WH_U, KC_WH_D, KC_BTN2,                      ACCEL,   KC_MS_L, KC_MS_U, KC_MS_D, KC_MS_R, XXXXXXX,\
+     XXXXXXX, ACCEL,   KC_BTN1, KC_WH_U, KC_WH_D, KC_BTN2,                      KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX, FN,  XXXXXXX,    XXXXXXX, KC_TRNS, XXXXXXX
                                       //|--------------------------|  |--------------------------|
@@ -166,25 +166,25 @@ void rgb_matrix_indicators_user(void) {
   #endif
 }
 
-char current_accel = "0";
+int current_accel = 0;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case ACCEL:
       if (record->event.pressed) {
-        if (current_accel == "0") {
-          current_accel = "1";
+        if (current_accel == 0) {
+          current_accel = 1;
           tap_code(KC_ACL1);
         }
-        if (current_accel == "1") {
-          current_accel = "2";
+        if (current_accel == 1) {
+          current_accel = 2;
           tap_code(KC_ACL2);
         }
-        if (current_accel == "2") {
-          current_accel = "0";
+        if (current_accel == 2) {
+          current_accel = 0;
           tap_code(KC_ACL0);
         }
       }
-      return false
+      return false;
 
     case NUMS:
       if (record->event.pressed) {
@@ -394,7 +394,16 @@ void render_logo(void) {
 }
 
 void render_mouse_accel(void) {
-  oled_write_P(PSTR(current_accel), false);
+  // TODO: debug `current_accel`
+  if (current_accel == 0) {
+    oled_write_P(PSTR("0"), false);
+  }
+  if (current_accel == 1) {
+    oled_write_P(PSTR("1"), false);
+  }
+  if (current_accel == 2) {
+    oled_write_P(PSTR("2"), false);
+  }
 }
 
 void render_layer_state(void) {
