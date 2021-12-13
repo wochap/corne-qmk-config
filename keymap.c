@@ -5,6 +5,7 @@ extern keymap_config_t keymap_config;
 
 #define NAV_LT LT(_NAV, KC_ENT)
 #define NUMS_LT LT(_NUMS, KC_TAB)
+
 #define HOME_A GUI_T(KC_A)
 #define HOME_R ALT_T(KC_R)
 #define HOME_S CTL_T(KC_S)
@@ -13,6 +14,15 @@ extern keymap_config_t keymap_config;
 #define HOME_E RCTL_T(KC_E)
 #define HOME_I RALT_T(KC_I)
 #define HOME_O RGUI_T(KC_O)
+
+#define H_DLR GUI_T(KC_DLR)
+#define H_LXXX ALT_T(XXXXXXX)
+#define H_LPRN CTL_T(KC_LPRN)
+#define H_RPRN SFT_T(KC_RPRN)
+#define H_MINS RSFT_T(KC_MINS)
+#define H_EQL RCTL_T(KC_EQL)
+#define H_RXXX RALT_T(XXXXXXX)
+#define H_PAST RGUI_T(KC_PAST)
 
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
@@ -56,7 +66,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
      XXXXXXX, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_DLR,  XXXXXXX, KC_LPRN, KC_RPRN, KC_AT,                        KC_BSLS, KC_MINS, KC_EQL,  XXXXXXX, KC_PAST, XXXXXXX,\
+     XXXXXXX, H_DLR,   H_LXXX,  H_LPRN,  H_RPRN,  KC_AT,                        KC_BSLS, H_MINS,  H_EQL,   H_RXXX,  H_PAST,  XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_EXLM, KC_HASH, XXXXXXX, KC_QUOT, KC_GRV,                       KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
