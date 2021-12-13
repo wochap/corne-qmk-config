@@ -3,14 +3,9 @@
 
 extern keymap_config_t keymap_config;
 
-#ifdef OLED_ENABLE
-static uint32_t oled_timer = 0;
-#endif
-
-extern uint8_t is_master;
-
 #define NAV_LT LT(_NAV, KC_ENT)
 #define NUMS_LT LT(_NUMS, KC_TAB)
+
 #define HOME_A GUI_T(KC_A)
 #define HOME_R ALT_T(KC_R)
 #define HOME_S CTL_T(KC_S)
@@ -20,6 +15,15 @@ extern uint8_t is_master;
 #define HOME_I RALT_T(KC_I)
 #define HOME_O RGUI_T(KC_O)
 
+#define H_DLR GUI_T(KC_DLR)
+#define H_LXXX ALT_T(XXXXXXX)
+#define H_LPRN CTL_T(KC_LPRN)
+#define H_RPRN SFT_T(KC_RPRN)
+#define H_MINS RSFT_T(KC_MINS)
+#define H_EQL RCTL_T(KC_EQL)
+#define H_RXXX RALT_T(XXXXXXX)
+#define H_PAST RGUI_T(KC_PAST)
+
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
@@ -27,8 +31,8 @@ extern uint8_t is_master;
 enum layers {
   _COLEMAK_DH,
   _NUMS,
-  _FN,
   _NAV,
+  _FN,
   _ADJUST,
   _QWERTY,
 };
@@ -38,10 +42,11 @@ enum layers {
 enum custom_keycodes {
   COLEMAK_DH = SAFE_RANGE,
   NUMS,
-  FN,
   NAV,
+  FN,
   ADJUST,
   QWERTY,
+  ACCEL,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -61,11 +66,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
      XXXXXXX, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_DLR,  KC_PLUS, KC_LPRN, KC_RPRN, KC_AT,                        KC_BSLS, KC_MINS, KC_EQL,  XXXXXXX, KC_PAST, XXXXXXX,\
+     XXXXXXX, H_DLR,   H_LXXX,  H_LPRN,  H_RPRN,  KC_AT,                        KC_BSLS, H_MINS,  H_EQL,   H_RXXX,  H_PAST,  XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_EXLM, KC_HASH, XXXXXXX, KC_QUOT, KC_GRV,                       KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, XXXXXXX, XXXXXXX,    KC_DEL,  KC_ESC, XXXXXXX
+                                         XXXXXXX, KC_TRNS, XXXXXXX,    KC_DEL,  KC_ESC, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -75,9 +80,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_F11,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,                       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_F12,  XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+     XXXXXXX, ACCEL,   KC_BTN1, KC_WH_U, KC_WH_D, KC_BTN2,                      KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, FN,      XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                         XXXXXXX, FN,  XXXXXXX,    XXXXXXX, KC_TRNS, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -89,7 +94,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
+                                         XXXXXXX, KC_TRNS, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -133,7 +138,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case HOME_R:
     case HOME_I:
     case HOME_O:
-      return TAPPING_TERM + 50;\
+    case H_DLR:
+    case H_LXXX:
+    case H_RXXX:
+    case H_PAST:
+      return TAPPING_TERM + 50;
     default:
       return TAPPING_TERM;
   }
@@ -141,23 +150,15 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 
 // Tap Dance definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  // TODO: print latin n on double n tap
+  // TODO:
 };
-
-int RGB_current_mode;
-
-void matrix_init_user(void) {
-  #ifdef RGBLIGHT_ENABLE
-  RGB_current_mode = rgblight_config.mode;
-  #endif
-}
 
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
   switch (biton32(layer_state)) {
     case _NUMS:
       for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-        rgb_matrix_set_color(i, 155, 89, 182);
+        rgb_matrix_set_color(i, 153, 255, 51);
       }
       break;
 
@@ -179,40 +180,47 @@ void rgb_matrix_indicators_user(void) {
   #endif
 }
 
-// Setting ADJUST layer RGB back to default
-// void update_tri_layer_RGB(uint8_t layer1, uint8_t layer2, uint8_t layer3) {
-//   if (IS_LAYER_ON(layer1) && IS_LAYER_ON(layer2)) {
-//     layer_on(layer3);
-//   } else {
-//     layer_off(layer3);
-//   }
-// }
-
+int current_accel = 0;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  if (record -> event.pressed) {
-    #ifdef OLED_ENABLE
-    oled_timer = timer_read32();
-    #endif
-  }
-
   switch (keycode) {
+    case ACCEL:
+      if (record->event.pressed) {
+        if (current_accel == 0) {
+          current_accel = 1;
+          tap_code(KC_ACL1);
+        }
+        if (current_accel == 1) {
+          current_accel = 2;
+          tap_code(KC_ACL2);
+        }
+        if (current_accel == 2) {
+          current_accel = 0;
+          tap_code(KC_ACL0);
+        }
+      }
+      return false;
+
     case NUMS:
       if (record->event.pressed) {
         layer_on(_NUMS);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
       } else {
         layer_off(_NUMS);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
+      }
+      return false;
+
+    case FN:
+      if (record->event.pressed) {
+        layer_on(_FN);
+      } else {
+        layer_off(_FN);
       }
       return false;
 
     case NAV:
       if (record->event.pressed) {
         layer_on(_NAV);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
       } else {
         layer_off(_NAV);
-        // update_tri_layer_RGB(_NUMS, _NAV, _ADJUST);
       }
       return false;
 
@@ -224,6 +232,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
   }
+
   return true;
 }
 
@@ -398,6 +407,19 @@ void render_logo(void) {
   oled_write_P(PSTR("corne"), false);
 }
 
+void render_mouse_accel(void) {
+  // TODO: debug `current_accel`
+  if (current_accel == 0) {
+    oled_write_P(PSTR("0"), false);
+  }
+  if (current_accel == 1) {
+    oled_write_P(PSTR("1"), false);
+  }
+  if (current_accel == 2) {
+    oled_write_P(PSTR("2"), false);
+  }
+}
+
 void render_layer_state(void) {
   static const char PROGMEM default_layer[] = {
     0x20, 0x94, 0x95, 0x96, 0x20,
@@ -438,31 +460,25 @@ void render_status_main(void) {
   render_space();
   render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+  render_space();
+  render_mouse_accel();
 }
 
 void render_status_secondary(void) {
   render_logo();
   render_space();
   render_layer_state();
-  render_space();
-  render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
-  render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
+  // render_space();
+  // render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
+  // render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
 }
 
 bool oled_task_user(void) {
-  if (timer_elapsed32(oled_timer) > 30000) {
-    oled_off();
-    return false;
-  }
-  #ifndef SPLIT_KEYBOARD
-  else { oled_on(); }
-  #endif
-
   if (is_keyboard_master()) {
-    render_status_main(); // Renders the current keyboard state (layer, lock, caps, scroll, etc)
+    render_status_main();
   } else {
     render_status_secondary();
   }
   return false;
 }
-#endif
+#endif // OLED_ENABLE
