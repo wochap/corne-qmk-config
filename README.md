@@ -1,35 +1,30 @@
-# corne-layout
+# Corne layout
 
-Hello there!
-There are some things that you need to know before start playing with your new Corne Keyboard:
+Main layer
+![Imgur](https://i.imgur.com/SaI0s8e.jpg)
 
-* You'll need to install QMK software:
-  * <a href="https://beta.docs.qmk.fm/tutorial/newbs_getting_started" target="blank">Here</a> are the instructions depending on your OS to install it.
-  * Then, you have to add all this folder in a path like mine: `C:\Users\luis-\qmk_firmware\keyboards\crkbd\keymaps\myCorneKeyboardLayout`
-* At this point you're ready to go! So, here are some usefull links:
-  * <a href="https://config.qmk.fm/#/crkbd/rev1/LAYOUT_split_3x6_3" target="blank">This link</a> can help you to know the 'name' of each key that you'll probably use.
-  * These 4 tutorial videos are very long, but have a lot of information (all in spanish), have carefull with some useless steps there, I recommend to see everything before starting, although it really isn't mandatory because I'm giving you the necessary steps, some more information is always useful...
-    * <a href="https://youtu.be/fvP5ws_I0HU" target="blank">Part 1</a>
-    * <a href="https://youtu.be/xH1Ali0g7w8" target="blank">Part 2</a>
-    * <a href="https://youtu.be/mz8WG5e--jA" target="blank">Part 3</a>
-    * <a href="https://youtu.be/vA32gDmvllA" target="blank">Part 4</a>
-* `qmk compile -kb crkbd -km myCorneKeyboardLayout:flash` <- this is the line I use in QMK MSYS to compile and updload my layout in my keyboard, when it finish, you have to push the reset button in the PCB or press the key between escape and enter but in the last layer.
+Nums layer
+![Imgur](https://i.imgur.com/yBR0Kz1.jpg)
 
-That's all, now you can edit every layer, add or remove fuctionalities 😉
+Nav layer
+![Imgur](https://i.imgur.com/cZrwUfd.jpg)
 
-Little disclaimer:
-The Dvorak layer is in beta phase, if you enter here, you'll need to unplug and plug the keyboard from the pc to return to the other layers.
+## Gettings started
 
-## Flash keyboard
+[Install QMK](https://beta.docs.qmk.fm/tutorial/newbs_getting_started)
 
-Clone repo in `keyboards/crkbd/keymaps` folder.
+### Flashing the split keyboard
+
+Clone repo in `~/qmk_firmware/keyboards/crkbd/keymaps` folder, rename the repository folder (`corne-layout`) to `wochap`.
 
 ```sh
-$ cd keyboards/crkbd/keymaps
+$ cd ~/qmk_firmware/keyboards/crkbd/keymaps
 $ git clone git@github.com:wochap/corne-layout.git wochap
 ```
 
-### First time
+Every time you make a change affecting the OLED screen or RGB, you must flash both sides (the `jack TRRS cable` must be connected), If you just modified the layout, then you need to flash the master (left side) only.
+
+#### First time
 
 1. Disconnect `jack TRRS cable` and the keyboard (USB-C)
 1. Left keyboard
@@ -40,16 +35,21 @@ $ git clone git@github.com:wochap/corne-layout.git wochap
   1. Run the command
   1. Connect the right keyboard, and press the reset button twice
   1. Once it finished, disconnect the right keyboard.
+1. Connect the `jack TRRS cable`, then the USB-C cable to the left side
+1. Run the command
+1. Press the reset button of the left side twice
+1. Done
 
-### Second time and on
+#### Second time and on
 
 1. Connect `jack TRRS cable`
-1. Disconnect the keyboard (USB-C) to the PC 
+1. Connect the left side (USB-C) to the PC
 1. Run the command
-1. Connect the keyboard (USB-C) and press the master keyboard reset button twice
+1. Press the master (left side) keyboard reset button twice
+1. Done
 
 ```sh
-# command
+# command ⬇️
 $ qmk compile -kb crkbd/rev1 -km wochap:flash
 ```
 
@@ -57,8 +57,9 @@ $ qmk compile -kb crkbd/rev1 -km wochap:flash
 
 ```
 .
-├── config.h             # 
-├── glcdfont.c           # oled screen related (looks like it is not being used)
+├── assets               # http://www.keyboard-layout-editor.com/ json files
+├── config.h             #
+├── glcdfont.c           # oled screen font
 ├── keymap.c             # here we define our layouts
 ├── README.md            # this file
 └── rules.mk             # environment variables?
