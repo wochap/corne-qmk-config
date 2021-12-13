@@ -24,6 +24,15 @@ extern keymap_config_t keymap_config;
 #define H_RXXX RALT_T(XXXXXXX)
 #define H_PAST RGUI_T(KC_PAST)
 
+#define H_F11 GUI_T(KC_F11)
+#define H_HOME ALT_T(KC_HOME)
+#define H_PGUP CTL_T(KC_PGUP)
+#define H_PGDN SFT_T(KC_PGDN)
+#define H_DOWN RSFT_T(KC_DOWN)
+#define H_UP RCTL_T(KC_UP)
+#define H_RGHT RALT_T(KC_RGHT)
+#define H_F12 RGUI_T(KC_F12)
+
 // Each layer gets a name for readability, which is then used in the keymap matrix below.
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
@@ -78,7 +87,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
      XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_F11,  KC_HOME, KC_PGUP, KC_PGDN, KC_END,                       KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_F12,  XXXXXXX,\
+     XXXXXXX, H_F11,   H_HOME,  H_PGUP,  H_PGDN,  KC_END,                       KC_LEFT, H_DOWN,  H_UP,    H_RGHT,  H_F12,   XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, ACCEL,   KC_BTN1, KC_WH_U, KC_WH_D, KC_BTN2,                      KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -142,6 +151,10 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case H_LXXX:
     case H_RXXX:
     case H_PAST:
+    case H_F11:
+    case H_HOME:
+    case H_RGHT:
+    case H_F12:
       return TAPPING_TERM + 50;
     default:
       return TAPPING_TERM;
