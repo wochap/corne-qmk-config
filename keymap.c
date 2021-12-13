@@ -144,7 +144,7 @@ void rgb_matrix_indicators_user(void) {
   switch (biton32(layer_state)) {
     case _NUMS:
       for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-        rgb_matrix_set_color(i, 155, 89, 182);
+        rgb_matrix_set_color(i, 153, 255, 51);
       }
       break;
 
