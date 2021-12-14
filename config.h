@@ -46,6 +46,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define OLED_FONT_WIDTH 5
 // #define OLED_FONT_HEIGHT 7
 
+#if defined(UNICODE_ENABLE)
+#define UNICODE_SELECTED_MODES UC_LNX
+#endif
+
 #if defined(SPLIT_KEYBOARD)
 // TODO: doesnt work
 // #define SPLIT_TRANSPORT_MIRROR

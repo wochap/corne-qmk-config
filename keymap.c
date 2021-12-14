@@ -6,28 +6,28 @@ extern keymap_config_t keymap_config;
 #define NAV_LT LT(_NAV, KC_ENT)
 #define NUMS_LT LT(_NUMS, KC_TAB)
 
-#define HOME_A GUI_T(KC_A)
-#define HOME_R ALT_T(KC_R)
-#define HOME_S CTL_T(KC_S)
-#define HOME_T SFT_T(KC_T)
+#define HOME_A LGUI_T(KC_A)
+#define HOME_R LALT_T(KC_R)
+#define HOME_S LCTL_T(KC_S)
+#define HOME_T LSFT_T(KC_T)
 #define HOME_N RSFT_T(KC_N)
 #define HOME_E RCTL_T(KC_E)
 #define HOME_I RALT_T(KC_I)
 #define HOME_O RGUI_T(KC_O)
 
-#define H_DLR GUI_T(KC_DLR)
-#define H_LXXX ALT_T(XXXXXXX)
-#define H_LPRN CTL_T(KC_LPRN)
-#define H_RPRN SFT_T(KC_RPRN)
+#define H_DLR LGUI_T(KC_DLR)
+#define H_LXXX LALT_T(XXXXXXX)
+#define H_LPRN LCTL_T(KC_LPRN)
+#define H_RPRN LSFT_T(KC_RPRN)
 #define H_MINS RSFT_T(KC_MINS)
 #define H_EQL RCTL_T(KC_EQL)
 #define H_RXXX RALT_T(XXXXXXX)
 #define H_PAST RGUI_T(KC_PAST)
 
-#define H_F11 GUI_T(KC_F11)
-#define H_HOME ALT_T(KC_HOME)
-#define H_PGUP CTL_T(KC_PGUP)
-#define H_PGDN SFT_T(KC_PGDN)
+#define H_F11 LGUI_T(KC_F11)
+#define H_HOME LALT_T(KC_HOME)
+#define H_PGUP LCTL_T(KC_PGUP)
+#define H_PGDN LSFT_T(KC_PGDN)
 #define H_DOWN RSFT_T(KC_DOWN)
 #define H_UP RCTL_T(KC_UP)
 #define H_RGHT RALT_T(KC_RGHT)
@@ -161,10 +161,9 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
-// Tap Dance definitions
-qk_tap_dance_action_t tap_dance_actions[] = {
-  // TODO:
-};
+#ifdef TAP_DANCE_ENABLE
+qk_tap_dance_action_t tap_dance_actions[] = {};
+#endif
 
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
@@ -196,6 +195,27 @@ void rgb_matrix_indicators_user(void) {
 int current_accel = 0;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    // Workaround around MT limitations
+    // https://beta.docs.qmk.fm/using-qmk/advanced-keycodes/mod_tap#changing-tap-function
+    case H_DLR:
+      if (record->tap.count && record->event.pressed) {
+        tap_code16(KC_DLR);
+        return false;
+      }
+      break;
+    case H_LPRN:
+      if (record->tap.count && record->event.pressed) {
+        tap_code16(KC_LPRN);
+        return false;
+      }
+      break;
+    case H_RPRN:
+      if (record->tap.count && record->event.pressed) {
+        tap_code16(KC_RPRN);
+        return false;
+      }
+      break;
+
     case ACCEL:
       if (record->event.pressed) {
         if (current_accel == 0) {
