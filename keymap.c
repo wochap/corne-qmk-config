@@ -3,6 +3,7 @@
 
 extern keymap_config_t keymap_config;
 
+#define NAV_ESC LT(_NAV, KC_ESC)
 #define NAV_LT LT(_NAV, KC_ENT)
 #define NUMS_LT LT(_NUMS, KC_TAB)
 
@@ -39,29 +40,28 @@ extern keymap_config_t keymap_config;
 // entirely and just use numbers.
 enum layers {
   _COLEMAK_DH,
+  _QWERTY,
   _NUMS,
   _NAV,
   _FN,
   _ADJUST,
-  _QWERTY,
 };
 
 // Custom keycodes for layer keys
 // Dual function escape with left command
 enum custom_keycodes {
   COLEMAK_DH = SAFE_RANGE,
+  QWERTY,
   NUMS,
   NAV,
   FN,
   ADJUST,
-  QWERTY,
-  ACCEL,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAK_DH] = LAYOUT_split_3x6_3(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     ADJUST,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, XXXXXXX,\
+     XXXXXXX, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_G,                         KC_M,    HOME_N,  HOME_E,  HOME_I,  HOME_O,  XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -79,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, KC_EXLM, KC_HASH, XXXXXXX, KC_QUOT, KC_GRV,                       KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, KC_TRNS, XXXXXXX,    KC_DEL,  KC_ESC, XXXXXXX
+                                         XXXXXXX, KC_TRNS, XXXXXXX,    KC_DEL,  NAV_ESC, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -89,9 +89,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, H_F11,   H_HOME,  H_PGUP,  H_PGDN,  KC_END,                       KC_LEFT, H_DOWN,  H_UP,    H_RGHT,  H_F12,   XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, ACCEL,   KC_BTN1, KC_WH_U, KC_WH_D, KC_BTN2,                      KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, XXXXXXX, XXXXXXX,\
+     XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_U, KC_WH_D, KC_CAPS,                      KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, FN,  XXXXXXX,    XXXXXXX, KC_TRNS, XXXXXXX
+                                         XXXXXXX, NUMS,    FN,         XXXXXXX, KC_TRNS, XXXXXXX
                                       //|--------------------------|  |--------------------------|
   ),
 
@@ -121,7 +121,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT_split_3x6_3(
   //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RESET,  \
+     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                      RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  \
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, RGB_HUI, RGB_SAI, RGB_SPI, RGB_VAI, RGB_MOD,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -134,9 +134,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case NUMS_LT:
-      return false;
     default:
+      // Do not force the mod-tap key press to be handled as a modifier
+      // if any other key was pressed while the mod-tap key is held down.
       return true;
   }
 }
@@ -156,6 +156,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case H_RGHT:
     case H_F12:
       return TAPPING_TERM + 50;
+    case NAV_ESC:
+    case NAV_LT:
+    case NUMS_LT:
+    case NUMS:
+      return TAPPING_TERM - 50;
     default:
       return TAPPING_TERM;
   }
@@ -192,7 +197,6 @@ void rgb_matrix_indicators_user(void) {
   #endif
 }
 
-int current_accel = 0;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     // Workaround around MT limitations
@@ -215,23 +219,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         return false;
       }
       break;
-
-    case ACCEL:
-      if (record->event.pressed) {
-        if (current_accel == 0) {
-          current_accel = 1;
-          tap_code(KC_ACL1);
-        }
-        if (current_accel == 1) {
-          current_accel = 2;
-          tap_code(KC_ACL2);
-        }
-        if (current_accel == 2) {
-          current_accel = 0;
-          tap_code(KC_ACL0);
-        }
-      }
-      return false;
 
     case NUMS:
       if (record->event.pressed) {
@@ -440,19 +427,6 @@ void render_logo(void) {
   oled_write_P(PSTR("corne"), false);
 }
 
-void render_mouse_accel(void) {
-  // TODO: debug `current_accel`
-  if (current_accel == 0) {
-    oled_write_P(PSTR("0"), false);
-  }
-  if (current_accel == 1) {
-    oled_write_P(PSTR("1"), false);
-  }
-  if (current_accel == 2) {
-    oled_write_P(PSTR("2"), false);
-  }
-}
-
 void render_layer_state(void) {
   static const char PROGMEM default_layer[] = {
     0x20, 0x94, 0x95, 0x96, 0x20,
@@ -494,7 +468,6 @@ void render_status_main(void) {
   render_mod_status_gui_alt(get_mods() | get_oneshot_mods());
   render_mod_status_ctrl_shift(get_mods() | get_oneshot_mods());
   render_space();
-  render_mouse_accel();
 }
 
 void render_status_secondary(void) {

@@ -49,7 +49,7 @@ Every time you make a change affecting the OLED screen or RGB, you must flash bo
 1. Done
 
 ```sh
-# command ⬇️
+# command
 $ qmk compile -kb crkbd/rev1 -km wochap:flash
 
 # Using docker
