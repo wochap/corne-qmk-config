@@ -4,10 +4,10 @@ Main layer
 ![Imgur](https://i.imgur.com/SaI0s8e.jpg)
 
 Nums layer
-![Imgur](https://i.imgur.com/yBR0Kz1.jpg)
+![Imgur](https://i.imgur.com/97s10gS.png)
 
 Nav layer
-![Imgur](https://i.imgur.com/cZrwUfd.jpg)
+![Imgur](https://i.imgur.com/zOgHCnN.png)
 
 ## Gettings started
 
