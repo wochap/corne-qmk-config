@@ -46,9 +46,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #undef USE_I2C
 #define USE_SERIAL_PD2
 #define MASTER_LEFT
+#define SPLIT_LED_STATE_ENABLE
 #define SPLIT_TRANSPORT_MIRROR
 #define SPLIT_LAYER_STATE_ENABLE
 #define SPLIT_MODS_ENABLE
+#define SPLIT_OLED_ENABLE
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
