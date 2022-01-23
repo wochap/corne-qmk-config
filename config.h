@@ -22,16 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #undef NO_ACTION_ONESHOT
 
-// #define USE_MATRIX_I2C
-
-/* Select hand configuration */
-#define MASTER_LEFT
-// #define MASTER_RIGHT
-// #define EE_HANDS
-
-#undef USE_I2C
-#define USE_SERIAL_PD2
-
 // #define TAPPING_FORCE_HOLD
 #undef TAPPING_TERM
 #define FORCE_NKRO
@@ -53,11 +43,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #if defined(SPLIT_KEYBOARD)
-// TODO: doesnt work
-// #define SPLIT_TRANSPORT_MIRROR
-// #define SPLIT_LAYER_STATE_ENABLE
-// #define SPLIT_LED_STATE_ENABLE
-// #define SPLIT_MODS_ENABLE
+#undef USE_I2C
+#define USE_SERIAL_PD2
+#define MASTER_LEFT
+#define SPLIT_TRANSPORT_MIRROR
+#define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_MODS_ENABLE
 #endif
 
 #ifdef RGB_MATRIX_ENABLE
