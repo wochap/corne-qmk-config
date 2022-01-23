@@ -6,6 +6,7 @@ extern keymap_config_t keymap_config;
 #define NAV_ESC LT(_NAV, KC_ESC)
 #define NAV_LT LT(_NAV, KC_ENT)
 #define NUMS_LT LT(_NUMS, KC_TAB)
+#define ADJUST_OSL OSL(_ADJUST)
 
 #define HOME_A LGUI_T(KC_A)
 #define HOME_R LALT_T(KC_R)
@@ -89,7 +90,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      XXXXXXX, H_F11,   H_HOME,  H_PGUP,  H_PGDN,  KC_END,                       KC_LEFT, H_DOWN,  H_UP,    H_RGHT,  H_F12,   XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_U, KC_WH_D, KC_CAPS,                      KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+     XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_U, KC_WH_D, KC_CAPS,                      KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX, ADJUST_OSL,XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX, NUMS,    FN,         XXXXXXX, KC_TRNS, XXXXXXX
                                       //|--------------------------|  |--------------------------|
@@ -197,6 +198,7 @@ void rgb_matrix_indicators_user(void) {
   #endif
 }
 
+bool is_nav_being_pressed = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     // Workaround around MT limitations
@@ -222,9 +224,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case NUMS:
       if (record->event.pressed) {
+        layer_off(_NAV);
         layer_on(_NUMS);
       } else {
         layer_off(_NUMS);
+        if (is_nav_being_pressed) {
+          layer_on(_NAV);
+        }
       }
       return false;
 
@@ -235,6 +241,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_FN);
       }
       return false;
+
+    case NAV_LT:
+      if (record->event.pressed) {
+        is_nav_being_pressed = true;
+      } else {
+        is_nav_being_pressed = false;
+      }
+      break;
 
     case NAV:
       if (record->event.pressed) {
