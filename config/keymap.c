@@ -3,56 +3,50 @@
 extern keymap_config_t keymap_config;
 
 #define NAV_ESC LT(_NAV, KC_ESC)
-#define NAV_LT LT(_NAV, KC_ENT)
-#define NUMS_LT LT(_NUMS, KC_TAB)
-#define ADJUST_OSL OSL(_ADJUST)
+#define NAV_ENT LT(_NAV, KC_ENT)
+#define NUM_TAB LT(_NUM, KC_TAB)
 
-#define HOME_A LGUI_T(KC_A)
-#define HOME_R LALT_T(KC_R)
-#define HOME_S LCTL_T(KC_S)
-#define HOME_T LSFT_T(KC_T)
-#define HOME_N RSFT_T(KC_N)
-#define HOME_E RCTL_T(KC_E)
-#define HOME_I RALT_T(KC_I)
-#define HOME_O RGUI_T(KC_O)
+#define HM_A LGUI_T(KC_A)
+#define HM_R LALT_T(KC_R)
+#define HM_S LCTL_T(KC_S)
+#define HM_T LSFT_T(KC_T)
+#define HM_N RSFT_T(KC_N)
+#define HM_E RCTL_T(KC_E)
+#define HM_I RALT_T(KC_I)
+#define HM_O RGUI_T(KC_O)
 
-#define H_DLR LGUI_T(KC_DLR)
-#define H_LXXX LALT_T(XXXXXXX)
-#define H_LPRN LCTL_T(KC_LPRN)
-#define H_RPRN LSFT_T(KC_RPRN)
-#define H_MINS RSFT_T(KC_MINS)
-#define H_EQL RCTL_T(KC_EQL)
-#define H_RXXX RALT_T(XXXXXXX)
-#define H_PAST RGUI_T(KC_PAST)
+#define HM_DLR LGUI_T(KC_DLR)
+#define HM_LPRN LCTL_T(KC_LPRN)
+#define HM_RPRN LSFT_T(KC_RPRN)
+#define HM_MINS RSFT_T(KC_MINS)
+#define HM_EQL RCTL_T(KC_EQL)
+#define HM_PAST RGUI_T(KC_PAST)
 
-#define H_F11 LGUI_T(KC_F11)
-#define H_HOME LALT_T(KC_HOME)
-#define H_PGUP LCTL_T(KC_PGUP)
-#define H_PGDN LSFT_T(KC_PGDN)
-#define H_DOWN RSFT_T(KC_DOWN)
-#define H_UP RCTL_T(KC_UP)
-#define H_RGHT RALT_T(KC_RGHT)
-#define H_F12 RGUI_T(KC_F12)
+#define HM_F11 LGUI_T(KC_F11)
+#define HM_HOME LALT_T(KC_HOME)
+#define HM_PGUP LCTL_T(KC_PGUP)
+#define HM_PGDN LSFT_T(KC_PGDN)
+#define HM_DOWN RSFT_T(KC_DOWN)
+#define HM_UP RCTL_T(KC_UP)
+#define HM_RGHT RALT_T(KC_RGHT)
+#define HM_F12 RGUI_T(KC_F12)
 
-// Each layer gets a name for readability, which is then used in the keymap matrix below.
-// The underscores don't mean anything - you can have a layer called STUFF or any other name.
-// Layer names don't all need to be of the same length, obviously, and you can also skip them
-// entirely and just use numbers.
+#define XXXXXX XXXXXXX
+#define ______ _______
+
 enum layers {
   _COLEMAK_DH,
   _QWERTY,
-  _NUMS,
+  _NUM,
   _NAV,
   _FN,
   _ADJUST,
 };
 
-// Custom keycodes for layer keys
-// Dual function escape with left command
 enum custom_keycodes {
   COLEMAK_DH = SAFE_RANGE,
   QWERTY,
-  NUMS,
+  NUM,
   NAV,
   FN,
   ADJUST,
@@ -60,106 +54,120 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAK_DH] = LAYOUT_split_3x6_3(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     XXXXXXX, KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, HOME_A,  HOME_R,  HOME_S,  HOME_T,  KC_G,                         KC_M,    HOME_N,  HOME_E,  HOME_I,  HOME_O,  XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,                         KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, NUMS_LT, KC_SPC,     KC_BSPC, NAV_LT,  XXXXXXX
-                                      //|--------------------------|  |--------------------------|
-  ),
-
-  [_NUMS] = LAYOUT_split_3x6_3(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     XXXXXXX, KC_8,    KC_7,    KC_3,     KC_0,    KC_5,                        KC_6,    KC_2,    KC_1,    KC_9,    KC_4,    XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, H_DLR,   H_LXXX,  H_LPRN,  H_RPRN,  KC_AT,                        KC_BSLS, H_MINS,  H_EQL,   H_RXXX,  H_PAST,  XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_EXLM, KC_HASH, XXXXXXX, KC_QUOT, KC_GRV,                       KC_AMPR, KC_LBRC, KC_RBRC, KC_PERC, KC_CIRC, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, KC_TRNS, XXXXXXX,    KC_DEL,  NAV_ESC, XXXXXXX
-                                      //|--------------------------|  |--------------------------|
-  ),
-
-  [_NAV] = LAYOUT_split_3x6_3(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     XXXXXXX, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,                        KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, H_F11,   H_HOME,  H_PGUP,  H_PGDN,  KC_END,                       KC_LEFT, H_DOWN,  H_UP,    H_RGHT,  H_F12,   XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, XXXXXXX, XXXXXXX, KC_WH_U, KC_WH_D, KC_CAPS,                      KC_PSCR, XXXXXXX, XXXXXXX, XXXXXXX, ADJUST_OSL,XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, NUMS,    FN,         XXXXXXX, KC_TRNS, XXXXXXX
-                                      //|--------------------------|  |--------------------------|
-  ),
-
-  [_FN] = LAYOUT_split_3x6_3(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     XXXXXXX, KC_BRID, KC_BRIU, XXXXXXX, XXXXXXX, RGB_VAD,                      RGB_VAI, KC_MPRV, KC_MPLY, KC_MNXT, KC_MUTE, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_VOLD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, KC_VOLU, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, KC_TRNS, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-                                      //|--------------------------|  |--------------------------|
+  //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+      XXXXXX,    KC_Q,      KC_W,      KC_F,      KC_P,      KC_B,          KC_J,      KC_L,      KC_U,      KC_Y,      KC_SCLN,   XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    HM_A,      HM_R,      HM_S,      HM_T,      KC_G,          KC_M,      HM_N,      HM_E,      HM_I,      HM_O,      XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    KC_Z,      KC_X,      KC_C,      KC_D,      KC_V,          KC_K,      KC_H,      KC_COMM,   KC_DOT,    KC_SLSH,   XXXXXX,\
+  //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                       XXXXXX,    NUM_TAB,   KC_SPC,        KC_BSPC,   NAV_ENT,   XXXXXX
+  //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
   ),
 
   [_QWERTY] = LAYOUT_split_3x6_3(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     ADJUST,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, NUMS_LT, KC_SPC,     KC_BSPC, NAV_LT,  XXXXXXX
-                                      //|--------------------------|  |--------------------------|
+  //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+      XXXXXX,    KC_Q,      KC_W,      KC_E,      KC_R,      KC_T,          KC_Y,      KC_U,      KC_I,      KC_O,      KC_P,      XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    KC_A,      KC_S,      KC_D,      KC_F,      KC_G,          KC_H,      KC_J,      KC_K,      KC_L,      KC_SCLN,   XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    KC_Z,      KC_X,      KC_C,      KC_V,      KC_B,          KC_N,      KC_M,      KC_COMM,   KC_DOT,    KC_SLSH,   XXXXXX,\
+  //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                       XXXXXX,    NUM_TAB,   KC_SPC,        KC_BSPC,   NAV_ENT,   XXXXXX
+  //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+  ),
+
+  [_NUM] = LAYOUT_split_3x6_3(
+  //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+      XXXXXX,    KC_8,      KC_7,      KC_3,      KC_0,      KC_5,          KC_6,      KC_2,      KC_1,      KC_9,      KC_4,      XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    HM_DLR,    KC_LALT,   HM_LPRN,   HM_RPRN,   KC_AT,         KC_BSLS,   HM_MINS,   HM_EQL,    KC_RALT,   HM_PAST,   XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    KC_EXLM,   KC_HASH,   XXXXXX,    KC_QUOT,   KC_GRV,        KC_AMPR,   KC_LBRC,   KC_RBRC,   KC_PERC,   KC_CIRC,   XXXXXX,\
+  //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                       XXXXXX,    ______,    XXXXXX,        KC_DEL,    NAV_ESC,   XXXXXX
+  //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+  ),
+
+  [_NAV] = LAYOUT_split_3x6_3(
+  //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+      XXXXXX,    KC_F1,     KC_F2,     KC_F3,     KC_F4,     KC_F5,         KC_F6,     KC_F7,     KC_F8,     KC_F9,     KC_F10,    XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    HM_F11,    HM_HOME,   HM_PGUP,   HM_PGDN,   KC_END,        KC_LEFT,   HM_DOWN,   HM_UP,     HM_RGHT,   HM_F12,    XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    XXXXXX,    XXXXXX,    KC_WH_U,   KC_WH_D,   KC_CAPS,       KC_PSCR,   XXXXXX,    XXXXXX,    XXXXXX,    OSL(_ADJUST), XXXXXX,\
+  //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                       XXXXXX,    NUM,       MO(FN),        XXXXXX,    ______,    XXXXXX
+  //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
+  ),
+
+  [_FN] = LAYOUT_split_3x6_3(
+  //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+      XXXXXX,    KC_BRID,   KC_BRIU,   XXXXXX,    XXXXXX,    RGB_VAD,       RGB_VAI,   KC_MPRV,   KC_MPLY,   KC_MNXT,   KC_MUTE,   XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    KC_VOLD,   XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,        XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    KC_VOLU,   XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,        XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,\
+  //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                       XXXXXX,    ______,    XXXXXX,        XXXXXX,    XXXXXX,    XXXXXX
+  //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
   ),
 
   [_ADJUST] = LAYOUT_split_3x6_3(
-  //|-----------------------------------------------------|                    |-----------------------------------------------------|
-     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, RGB_TOG,                      RESET,   XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  \
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, RGB_HUI, RGB_SAI, RGB_SPI, RGB_VAI, RGB_MOD,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     XXXXXXX, RGB_HUD, RGB_SAD, RGB_SPD, RGB_VAD, RGB_RMOD,                     XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
-  //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX
-                                      //|--------------------------|  |--------------------------|
+  //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮   ╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────╮
+      XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    RGB_TOG,       XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    RGB_HUI,   RGB_SAI,   RGB_SPI,   RGB_VAI,   RGB_MOD,       RGB_HUD,   RGB_SAD,   RGB_SPD,   RGB_VAD,   RGB_RMOD,  XXXXXX,\
+  //├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+      XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,    QK_BOOT,   EE_CLR,        EE_CLR,    QK_BOOT,   XXXXXX,    XXXXXX,    XXXXXX,    XXXXXX,\
+  //╰──────────┴──────────┴──────────┴──────────┼──────────┼──────────┤   ├──────────┼──────────┼──────────┴──────────┴──────────┴──────────╯
+                                       XXXXXX,    XXXXXX,    XXXXXX,        XXXXXX,    XXXXXX,    XXXXXX
+  //                                 ╰──────────┴──────────┴──────────╯   ╰──────────┴──────────┴──────────╯
   ),
 };
 
-bool get_ignore_mod_tap_interrupt(uint16_t keycode, keyrecord_t *record) {
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    default:
-      // Do not force the mod-tap key press to be handled as a modifier
-      // if any other key was pressed while the mod-tap key is held down.
+    case NAV_ESC:
+    case NAV_ENT:
+    case NUM_TAB:
+      // Immediately select the hold action when another key is pressed.
       return true;
+    default:
+      // Do not select the hold action when another key is pressed.
+      return false;
   }
 }
-
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case HOME_A:
-    case HOME_R:
-    case HOME_I:
-    case HOME_O:
-    case H_DLR:
-    case H_LXXX:
-    case H_RXXX:
-    case H_PAST:
-    case H_F11:
-    case H_HOME:
-    case H_RGHT:
-    case H_F12:
+    case HM_A:
+    case HM_R:
+    case HM_I:
+    case HM_O:
+    case HM_N:
+    case HM_E:
+    case HM_I:
+    case HM_O:
+
+    case HM_DLR:
+    case HM_LPRN:
+    case HM_RPRN:
+    case HM_MINS:
+    case HM_EQL:
+    case HM_PAST:
+
+    case HM_F11:
+    case HM_HOME:
+    case HM_PGUP:
+    case HM_PGDN:
+    case HM_DOWN:
+    case HM_UP:
+    case HM_RGHT:
+    case HM_F12:
       return TAPPING_TERM + 50;
     case NAV_ESC:
-    case NAV_LT:
-    case NUMS_LT:
-    case NUMS:
+    case NAV_ENT:
+    case NUM_TAB:
       return TAPPING_TERM - 50;
     default:
       return TAPPING_TERM;
@@ -194,49 +202,26 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       break;
 
-    case NUMS:
+    case NUM:
       if (record->event.pressed) {
         layer_off(_NAV);
-        layer_on(_NUMS);
+        layer_on(_NUM);
       } else {
-        layer_off(_NUMS);
+        layer_off(_NUM);
         if (is_nav_being_pressed) {
           layer_on(_NAV);
         }
       }
       return false;
 
-    case FN:
-      if (record->event.pressed) {
-        layer_on(_FN);
-      } else {
-        layer_off(_FN);
-      }
-      return false;
-
-    case NAV_LT:
+    case NAV_ENT:
+    case NAV_ESC:
       if (record->event.pressed) {
         is_nav_being_pressed = true;
       } else {
         is_nav_being_pressed = false;
       }
       break;
-
-    case NAV:
-      if (record->event.pressed) {
-        layer_on(_NAV);
-      } else {
-        layer_off(_NAV);
-      }
-      return false;
-
-    case ADJUST:
-      if (record -> event.pressed) {
-        layer_on(_ADJUST);
-      } else {
-        layer_off(_ADJUST);
-      }
-      return false;
   }
 
   return true;
@@ -245,7 +230,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
   switch (biton32(layer_state)) {
-    case _NUMS:
+    case _NUM:
       for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
         rgb_matrix_set_color(i, 153, 255, 51);
       }
@@ -450,7 +435,7 @@ void render_layer_state(void) {
     0x20, 0xb4, 0xb5, 0xb6, 0x20,
     0x20, 0xd4, 0xd5, 0xd6, 0x20, 0
   };
-  static const char PROGMEM nums_layer[] = {
+  static const char PROGMEM num_layer[] = {
     0x20, 0x97, 0x98, 0x99, 0x20,
     0x20, 0xb7, 0xb8, 0xb9, 0x20,
     0x20, 0xd7, 0xd8, 0xd9, 0x20, 0
@@ -470,8 +455,8 @@ void render_layer_state(void) {
     oled_write_P(adjust_layer, false);
   } else if (layer_state_is(_NAV)) {
     oled_write_P(nav_layer, false);
-  } else if (layer_state_is(_NUMS)) {
-    oled_write_P(nums_layer, false);
+  } else if (layer_state_is(_NUM)) {
+    oled_write_P(num_layer, false);
   } else {
     oled_write_P(default_layer, false);
   }
