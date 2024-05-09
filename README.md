@@ -1,69 +1,68 @@
-# Corne layout
+## Corne QMK config
 
-Main layer
-![Imgur](https://i.imgur.com/SaI0s8e.jpg)
+### Layers
 
-Nums layer
-![Imgur](https://i.imgur.com/97s10gS.png)
+ColemakDH
+![Imgur](https://i.imgur.com/1igKPoQ.jpg)
 
-Nav layer
-![Imgur](https://i.imgur.com/zOgHCnN.png)
+Querty
+![Imgur](https://i.imgur.com/OMmmfWw.png)
 
-## Gettings started
+Num
+![Imgur](https://i.imgur.com/70txcxD.png)
 
-[Install QMK](https://beta.docs.qmk.fm/tutorial/newbs_getting_started)
+Nav
+![Imgur](https://i.imgur.com/YICzLky.png)
 
-### Flashing the split keyboard
+> Images generated with http://www.keyboard-layout-editor.com/, use the files in `assets` folder
 
-Clone repo in `~/qmk_firmware/keyboards/crkbd/keymaps` folder, rename the repository folder (`corne-layout`) to `wochap`.
+### Flashing
 
-```sh
-$ cd ~/qmk_firmware/keyboards/crkbd/keymaps
-$ git clone git@github.com:wochap/corne-layout.git wochap
+Every time you make a change affecting the OLED screen or RGB, you must flash both sides (the `jack TRRS cable` must be **connected**). If you just modified the layout, then you need to flash the master (left side) only.
+
 ```
+$ cd ~/qmk_firmware
 
-Every time you make a change affecting the OLED screen or RGB, you must flash both sides (the `jack TRRS cable` must be connected), If you just modified the layout, then you need to flash the master (left side) only.
-
-#### First time
-
-1. Disconnect `jack TRRS cable` and the keyboard (USB-C)
-1. Left keyboard
-  1. Run the command
-  1. Connect the left keyboard, and press the reset button twice
-  1. Once it finished, disconnect the left keyboard.
-1. Right keyboard
-  1. Run the command
-  1. Connect the right keyboard, and press the reset button twice
-  1. Once it finished, disconnect the right keyboard.
-1. Connect the `jack TRRS cable`, then the USB-C cable to the left side
-1. Run the command
-1. Press the reset button of the left side twice
-1. Done
-
-#### Second time and on
-
-1. Connect `jack TRRS cable`
-1. Connect the left side (USB-C) to the PC
-1. Run the command
-1. Press the master (left side) keyboard reset button twice
-1. Done
-
-```sh
-# command
+# command is
+$ sh util/docker_build.sh crkbd/rev1:wochap:flash
+# or if you setup your dev environment
 $ qmk compile -kb crkbd/rev1 -km wochap:flash
-
-# Using docker
-$ sudo util/docker_build.sh crkbd/rev1:wochap:flash
 ```
 
-## Files
+#### Flashing both sides
 
-```
-.
-├── assets               # http://www.keyboard-layout-editor.com/ json files
-├── config.h             #
-├── glcdfont.c           # oled screen font
-├── keymap.c             # here we define our layouts
-├── README.md            # this file
-└── rules.mk             # environment variables?
-```
+1. Disconnect `jack TRRS cable` and both sides from the computer
+1. Left side
+   1. Run the `command`
+   1. Connect the left side to the computer, and press the reset button twice
+   1. Once it finished, disconnect the left side.
+1. Right side
+   1. Run the `command`
+   1. Connect the right side to the computer, and press the reset button twice
+   1. Once it finished, disconnect the right side.
+1. Connect the `jack TRRS cable`, then only connect the left side to the computer
+1. Run the `command`
+1. Press the reset button of the left side twice
+
+#### Flashing only master (left side)
+
+1. Connect the `jack TRRS cable`, then only connect the left side to the computer
+1. Run the `command`
+1. Press reset button of the master (left side) twice
+
+### Development
+
+1. Setup your [dev environment](https://docs.qmk.fm/#/newbs_getting_started)
+
+   ```
+   $ python3 -m pip install qmk
+
+   # run one the following commands
+   $ qmk setup
+   # or
+   $ git clone --recurse-submodules --depth 1 https://github.com/qmk/qmk_firmware.git ~/qmk_firmware
+   # both do the same, but the second should be faster
+   ```
+
+1. Clone `corne-qmk-config` git repository
+1. Symlink the folder `config` in `corne-qmk-config` to `~/qmk_firmware/keyboards/crkbd/keymaps/wochap`
