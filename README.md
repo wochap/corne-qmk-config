@@ -67,5 +67,5 @@ $ qmk compile -kb crkbd/rev1 -km wochap:flash
 1. Clone `corne-qmk-config` git repository
 1. Symlink the folder `config` in `corne-qmk-config` to `~/qmk_firmware/keyboards/crkbd/keymaps/wochap`
    ```sh
-   ln -s ~/qmk_firmware/keyboards/crkbd/keymaps/wochap ./config
+   $ ln -s $(pwd)/config ~/qmk_firmware/keyboards/crkbd/keymaps/wochap
    ```
