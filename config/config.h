@@ -22,15 +22,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #undef NO_ACTION_ONESHOT
 
-// #define TAPPING_FORCE_HOLD
-#undef TAPPING_TERM
-#define FORCE_NKRO
-#define IGNORE_MOD_TAP_INTERRUPT
-#define IGNORE_MOD_TAP_INTERRUPT_PER_KEY
-// #define NKRO_ENABLE
-#define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 170
+#define HOLD_ON_OTHER_KEY_PRESS
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 #define TAPPING_TERM_PER_KEY
+#define QUICK_TAP_TERM_PER_KEY
 
 #define OLED_FONT_H "keyboards/crkbd/keymaps/wochap/glcdfont.c"
 #define OLED_TIMEOUT 30000

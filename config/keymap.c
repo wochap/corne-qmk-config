@@ -5,7 +5,6 @@ extern keymap_config_t keymap_config;
 #define NAV_ESC LT(_NAV, KC_ESC)
 #define NAV_ENT LT(_NAV, KC_ENT)
 #define NUM_TAB LT(_NUM, KC_TAB)
-
 #define HM_A LGUI_T(KC_A)
 #define HM_R LALT_T(KC_R)
 #define HM_S LCTL_T(KC_S)
@@ -14,14 +13,12 @@ extern keymap_config_t keymap_config;
 #define HM_E RCTL_T(KC_E)
 #define HM_I RALT_T(KC_I)
 #define HM_O RGUI_T(KC_O)
-
 #define HM_DLR LGUI_T(KC_DLR)
 #define HM_LPRN LCTL_T(KC_LPRN)
 #define HM_RPRN LSFT_T(KC_RPRN)
 #define HM_MINS RSFT_T(KC_MINS)
 #define HM_EQL RCTL_T(KC_EQL)
 #define HM_PAST RGUI_T(KC_PAST)
-
 #define HM_F11 LGUI_T(KC_F11)
 #define HM_HOME LALT_T(KC_HOME)
 #define HM_PGUP LCTL_T(KC_PGUP)
@@ -30,7 +27,6 @@ extern keymap_config_t keymap_config;
 #define HM_UP RCTL_T(KC_UP)
 #define HM_RGHT RALT_T(KC_RGHT)
 #define HM_F12 RGUI_T(KC_F12)
-
 #define XXXXXX XXXXXXX
 #define ______ _______
 
@@ -138,6 +134,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
       return false;
   }
 }
+
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case HM_A:
@@ -148,14 +145,12 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case HM_E:
     case HM_I:
     case HM_O:
-
     case HM_DLR:
     case HM_LPRN:
     case HM_RPRN:
     case HM_MINS:
     case HM_EQL:
     case HM_PAST:
-
     case HM_F11:
     case HM_HOME:
     case HM_PGUP:
@@ -164,13 +159,46 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case HM_UP:
     case HM_RGHT:
     case HM_F12:
-      return TAPPING_TERM + 50;
+      return 220;
     case NAV_ESC:
     case NAV_ENT:
     case NUM_TAB:
-      return TAPPING_TERM - 50;
+      return 120;
     default:
       return TAPPING_TERM;
+  }
+}
+
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case HM_A:
+    case HM_R:
+    case HM_I:
+    case HM_O:
+    case HM_N:
+    case HM_E:
+    case HM_I:
+    case HM_O:
+    case HM_DLR:
+    case HM_LPRN:
+    case HM_RPRN:
+    case HM_MINS:
+    case HM_EQL:
+    case HM_PAST:
+    case HM_F11:
+    case HM_HOME:
+    case HM_PGUP:
+    case HM_PGDN:
+    case HM_DOWN:
+    case HM_UP:
+    case HM_RGHT:
+    case HM_F12:
+    case NAV_ESC:
+    case NAV_ENT:
+    case NUM_TAB:
+      return 150;
+    default:
+      return QUICK_TAP_TERM;
   }
 }
 
