@@ -20,7 +20,7 @@ Nav
 
 Every time you make a change affecting the OLED screen or RGB, you must flash both sides (the `jack TRRS cable` must be **connected**). If you just modified the layout, then you need to flash the master (left side) only.
 
-```
+```sh
 $ cd ~/qmk_firmware
 
 # command is
@@ -54,7 +54,7 @@ $ qmk compile -kb crkbd/rev1 -km wochap:flash
 
 1. Setup your [dev environment](https://docs.qmk.fm/#/newbs_getting_started)
 
-   ```
+   ```sh
    $ python3 -m pip install qmk
 
    # run one the following commands
@@ -66,3 +66,6 @@ $ qmk compile -kb crkbd/rev1 -km wochap:flash
 
 1. Clone `corne-qmk-config` git repository
 1. Symlink the folder `config` in `corne-qmk-config` to `~/qmk_firmware/keyboards/crkbd/keymaps/wochap`
+   ```sh
+   ln -s ~/qmk_firmware/keyboards/crkbd/keymaps/wochap ./config
+   ```
