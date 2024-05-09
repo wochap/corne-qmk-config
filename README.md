@@ -26,7 +26,8 @@ $ cd ~/qmk_firmware
 # command is
 $ sh util/docker_build.sh crkbd/rev1:wochap:flash
 # or if you setup your dev environment
-$ qmk compile -kb crkbd/rev1 -km wochap:flash
+$ qmk compile -kb crkbd/rev1 -km wochap
+$ qmk flash -kb crkbd/rev1 -km wochap
 ```
 
 #### Flashing both sides

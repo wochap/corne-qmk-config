@@ -139,8 +139,8 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case HM_A:
     case HM_R:
-    case HM_I:
-    case HM_O:
+    case HM_S:
+    case HM_T:
     case HM_N:
     case HM_E:
     case HM_I:
@@ -173,8 +173,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case HM_A:
     case HM_R:
-    case HM_I:
-    case HM_O:
+    case HM_S:
+    case HM_T:
     case HM_N:
     case HM_E:
     case HM_I:
@@ -211,19 +211,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     // Workaround around MT limitations
     // https://docs.qmk.fm/#/mod_tap?id=changing-tap-function
-    case H_DLR:
+    case HM_DLR:
       if (record->tap.count && record->event.pressed) {
         tap_code16(KC_DLR);
         return false;
       }
       break;
-    case H_LPRN:
+    case HM_LPRN:
       if (record->tap.count && record->event.pressed) {
         tap_code16(KC_LPRN);
         return false;
       }
       break;
-    case H_RPRN:
+    case HM_RPRN:
       if (record->tap.count && record->event.pressed) {
         tap_code16(KC_RPRN);
         return false;
@@ -255,35 +255,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-void rgb_matrix_indicators_user(void) {
+bool rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
+  led_t led_state = host_keyboard_led_state();
   switch (biton32(layer_state)) {
     case _NUM:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+      for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
         rgb_matrix_set_color(i, 153, 255, 51);
       }
       break;
 
     case _NAV:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+      for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
         rgb_matrix_set_color(i, 52, 152, 219);
       }
       break;
 
     default:
-      if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
-        for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+      if (led_state.caps_lock) {
+        for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
           // CAPS LOCK is ON
           rgb_matrix_set_color(i, 219, 52, 52);
         }
       } else {
-        for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+        for (int i = 0; i < RGB_MATRIX_LED_COUNT; i++) {
           rgb_matrix_set_color(i, 0, 0, 0);
         }
       }
       break;
   }
   #endif
+  return false;
 }
 
 void suspend_power_down_user(void) {
